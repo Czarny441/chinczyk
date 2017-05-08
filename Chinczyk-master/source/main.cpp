@@ -1,4 +1,5 @@
 #include <Windows.h>
+#include "Player.h"
 #include "res.h"
 #include <cstdlib>
 #include <vector>
@@ -7,21 +8,23 @@
 using namespace std;
 
 bool isGameOn = false;  //czy gra zosta³a zaczêta
-//bool isFirstPlayerTurn = true;  //czyj ruch
-enum player {yellow, red, blue, green};   //który gracz wykonuje ruch
-bool isPlayerdrawn;
-int value;
-int y_val, r_val, b_val, g_val;
+bool isPlayerdrawn;   //czy zaczynaj¹cy gracz zosta³ ju¿ wylosowany
+int value;   //wartoœæ rzutu kostk¹
+int y_val, r_val, b_val, g_val;   //wartoœci rzutu kostk¹ dla poszczególnych graczy
 HBITMAP hBitmapGameBoard;
 HBITMAP hBitmapYellow;
 HBITMAP hBitmapRed;
 HBITMAP hBitmapBlue;
 HBITMAP hBitmapGreen;
 HINSTANCE hInst;
-player gracz;
-vector <int> drawing;
-int drawing_max;
-int tries = 0;
+vector <int> drawing;  //wektor rzutów przy losowaniu
+vector <int> placing;  //wektor pokazuj¹cy, ogo nale¿y usun¹æ z losowania (kto rzuci³ najmniej)
+int drawing_max;    //najwiêkszy rzut
+int tries = 0;    //iloœæ prób wyjœcia z domku
+int length = 0; //sprawdzanie d³ugoœci wektora do czyszczenia drawing
+int size_kolor = 0; //d³ugoœæ wektora kolorów
+bool firstdraw = true;   //dotyczy pierwszego losowania
+Player graczx = Player();
 
 void drawBoard(HDC hdc) 
 {
@@ -64,6 +67,47 @@ void drawGreen(HDC hdc, int x, int y)
   DeleteDC(hDCBitmap);
 }
 
+void fillPlacing(vector <int> &placing, vector <int> drawing)
+{
+  placing.clear();
+  for (int i = 0; i < drawing.size(); i++)
+  {
+    placing.push_back(i);
+  }
+}
+
+void maxdraw(vector <int> &drawing, vector <int> &placing)
+{
+  int max = 0;
+  int place = 0;
+  int erasing = 0;
+  for (int i = 0; i < drawing.size(); i++)
+  {
+    if ((drawing[i]) > max)
+    {
+      max = drawing[i];
+
+      fillPlacing(placing,drawing);
+      placing.erase(placing.begin() + i);
+      erasing = 0;
+    }
+    else if ((drawing[i]) == max)
+    {
+      erasing++;
+      if ((placing[i - erasing]) == (placing[placing.size() - 1]))
+      {
+        placing.pop_back();
+      }
+      else
+      {
+        placing.erase(placing.begin() + i - erasing);
+      }
+    }
+  }
+}
+
+
+
 
 int kostka(HWND hwndDlg)
 {
@@ -88,9 +132,20 @@ void czysc(HWND hwndDlg)
   wsprintf(szText, "", b_val);  SetWindowText(hwndstatic_b, szText);
 }
 
-void losuj_gracza(HWND hwndDlg, player &gracz, vector<int> &drawing)
+void losuj_gracza(HWND hwndDlg, Player &graczx, vector<int> &drawing, vector <int> &placing)
 {
-  switch (gracz)
+  if (length == size_kolor)
+  {
+    drawing.clear();
+    placing.clear();
+    length = 0;
+  }
+  if (length == 0)
+  {
+    size_kolor = graczx.grajace_kolory.size();
+  }
+
+  switch (graczx.aktualny)
   {
   case yellow: {
     y_val = kostka(hwndDlg);
@@ -100,7 +155,11 @@ void losuj_gracza(HWND hwndDlg, player &gracz, vector<int> &drawing)
     SetWindowText(hwndstatic_y, szText);
     CheckRadioButton(hwndDlg, IDC_RADIO_RED, IDC_RADIO_YELLOW, IDC_RADIO_YELLOW);
     drawing.push_back(y_val);
-    gracz = red;
+
+    if (graczx.grajace_kolory.size() != 1)
+    {
+      graczx.next();
+    }
     break;
   }
   case red: {
@@ -110,12 +169,38 @@ void losuj_gracza(HWND hwndDlg, player &gracz, vector<int> &drawing)
     wsprintf(szText, "Wylosowano: %d", r_val);
     SetWindowText(hwndstatic_r, szText);
     CheckRadioButton(hwndDlg, IDC_RADIO_RED, IDC_RADIO_YELLOW, IDC_RADIO_RED);
-    if (r_val > drawing[0])
+    drawing.push_back(r_val);
+
+    if (drawing.size() == size_kolor)
     {
-      drawing.pop_back();
-      drawing.push_back(r_val);
+      int erasing = 0;
+      maxdraw(drawing, placing);
+      for (int i = 0; i < placing.size(); i++)
+      {
+        for (int j = 0; j < 4; j++)
+        {
+          if (placing[i] == j)
+          {
+            if ((graczx.grajace_kolory[j - erasing]) == (graczx.grajace_kolory[graczx.grajace_kolory.size() - 1]))
+            {
+              graczx.grajace_kolory.pop_back();
+              erasing++;
+            }
+            else
+            {
+              graczx.grajace_kolory.erase(graczx.grajace_kolory.begin() + j - erasing);
+              erasing++;
+            }
+            break;
+
+          }
+        }
+      }
     }
-    gracz = blue;
+    if (graczx.grajace_kolory.size() != 1)
+    {
+      graczx.next();
+    }
     break;
   }
   case blue: {
@@ -125,12 +210,38 @@ void losuj_gracza(HWND hwndDlg, player &gracz, vector<int> &drawing)
     wsprintf(szText, "Wylosowano: %d", b_val);
     SetWindowText(hwndstatic_b, szText);
     CheckRadioButton(hwndDlg, IDC_RADIO_RED, IDC_RADIO_YELLOW, IDC_RADIO_BLUE);
-    if (b_val > drawing[0])
+    drawing.push_back(b_val);
+
+    if (drawing.size() == size_kolor)
     {
-      drawing.pop_back();
-      drawing.push_back(b_val);
+      int erasing = 0;
+      maxdraw(drawing, placing);
+      for (int i = 0; i < placing.size(); i++)
+      {
+        for (int j = 0; j < 4; j++)
+        {
+          if (placing[i] == j)
+          {
+            if ((graczx.grajace_kolory[j - erasing]) == (graczx.grajace_kolory[graczx.grajace_kolory.size() - 1]))
+            {
+              graczx.grajace_kolory.pop_back();
+              erasing++;
+            }
+            else
+            {
+              graczx.grajace_kolory.erase(graczx.grajace_kolory.begin() + j - erasing);
+              erasing++;
+            }
+            break;
+
+          }
+        }
+      }
     }
-    gracz = green;
+    if (graczx.grajace_kolory.size() != 1)
+    {
+      graczx.next();
+    }
     break;
   }
   case green: {
@@ -140,60 +251,49 @@ void losuj_gracza(HWND hwndDlg, player &gracz, vector<int> &drawing)
     wsprintf(szText, "Wylosowano: %d", g_val);
     SetWindowText(hwndstatic_g, szText);
     CheckRadioButton(hwndDlg, IDC_RADIO_RED, IDC_RADIO_YELLOW, IDC_RADIO_GREEN);
-    if (g_val > drawing[0])
+    drawing.push_back(g_val);
+
+    if (drawing.size() == size_kolor)
     {
-      drawing.pop_back();
-      drawing.push_back(g_val);
-    }
-    gracz = yellow;
-    //break;
-  }
-              Sleep(1000);
+      int erasing = 0;
+      maxdraw(drawing, placing);
+      for (int i = 0; i < placing.size(); i++)
+      {
+        for (int j = 0; j < 4; j++)
+        {
+          if (placing[i] == j)
+          {
+            if ((graczx.grajace_kolory[j - erasing]) == (graczx.grajace_kolory[graczx.grajace_kolory.size() - 1]))
+            {
+              graczx.grajace_kolory.pop_back();
+              erasing++;
+            }
+            else
+            {
+              graczx.grajace_kolory.erase(graczx.grajace_kolory.begin() + j - erasing);
+              erasing++;
+            }
+            break;
 
-              if (drawing[0] == y_val)
-              {
-                gracz = yellow;
-                CheckRadioButton(hwndDlg, IDC_RADIO_RED, IDC_RADIO_YELLOW, IDC_RADIO_YELLOW);
-
-              }
-              else if (drawing[0] == r_val)
-              {
-                gracz = red;
-                CheckRadioButton(hwndDlg, IDC_RADIO_RED, IDC_RADIO_YELLOW, IDC_RADIO_RED);
-              }
-              else if (drawing[0] == b_val)
-              {
-                gracz = blue;
-                CheckRadioButton(hwndDlg, IDC_RADIO_RED, IDC_RADIO_YELLOW, IDC_RADIO_BLUE);
-              }
-              else if (drawing[0] == g_val)
-              {
-                gracz = green;
-                CheckRadioButton(hwndDlg, IDC_RADIO_RED, IDC_RADIO_YELLOW, IDC_RADIO_GREEN);
-              }
-              drawing.clear();
-              char szText[500];
-              switch (gracz)
-              {
-              case 0:
-                wsprintf(szText, "Wygra³ ¿ó³ty"); break;
-              case 1:
-                wsprintf(szText, "Wygra³ czerwony"); break;
-              case 2:
-                wsprintf(szText, "Wygra³ niebieski"); break;
-              case 3:
-                wsprintf(szText, "Wygra³ zielony"); break;
-              }
-              //wsprintf(szText, "Wygra³ %d", gracz);
-              MessageBox(hwndDlg, szText, "cokolwiek", MB_OK);
-              czysc(hwndDlg);
-              isPlayerdrawn = true;
+          }
+        }
       }
-  }
+    }
 
-void wystaw_pionka(HWND hwnDlg, player gracz, HDC hdc)
+
+      if (graczx.grajace_kolory.size() != 1)
+      {
+        graczx.next();
+      }
+      break;
+    }
+  }
+  length++;
+}
+
+void wystaw_pionka(HWND hwnDlg, Player graczx, HDC hdc)
 {
-  switch (gracz)
+  switch (graczx.aktualny)
   {
   case yellow:
     drawYellow(hdc, 250, 630);
@@ -211,30 +311,30 @@ void wystaw_pionka(HWND hwnDlg, player gracz, HDC hdc)
   }
 }
 
-void rzut_kostka3(HWND hwndDlg, player &gracz, HDC hdc,int &tries)
+void rzut_kostka3(HWND hwndDlg, Player &graczx, HDC hdc,int &tries)
 {
       tries++;
       int draw = kostka(hwndDlg);
       if (draw == 6)
       {
-        wystaw_pionka(hwndDlg, gracz, hdc);
-        switch (gracz)
+        wystaw_pionka(hwndDlg, graczx, hdc);
+        switch (graczx.aktualny)
         {
         case yellow:
           CheckRadioButton(hwndDlg, IDC_RADIO_RED, IDC_RADIO_YELLOW, IDC_RADIO_RED);
-          gracz = red;
+          graczx.next();
           break;
         case red:
           CheckRadioButton(hwndDlg, IDC_RADIO_RED, IDC_RADIO_YELLOW, IDC_RADIO_BLUE);
-          gracz = blue;
+          graczx.next();
           break;
         case blue:
           CheckRadioButton(hwndDlg, IDC_RADIO_RED, IDC_RADIO_YELLOW, IDC_RADIO_GREEN);
-          gracz = green;
+          graczx.next();
           break;
         case green:
           CheckRadioButton(hwndDlg, IDC_RADIO_RED, IDC_RADIO_YELLOW, IDC_RADIO_YELLOW);
-          gracz = yellow;
+          graczx.next();
           break;
         }
         tries = 0;
@@ -242,27 +342,65 @@ void rzut_kostka3(HWND hwndDlg, player &gracz, HDC hdc,int &tries)
       }
       if (tries == 3)
       {
-        switch (gracz)
+        switch (graczx.aktualny)
         {
         case yellow:
           CheckRadioButton(hwndDlg, IDC_RADIO_RED, IDC_RADIO_YELLOW, IDC_RADIO_RED);
-          gracz = red;
+          graczx.next();
           break;
         case red:
           CheckRadioButton(hwndDlg, IDC_RADIO_RED, IDC_RADIO_YELLOW, IDC_RADIO_BLUE);
-          gracz = blue;
+          graczx.next();
           break;
         case blue:
           CheckRadioButton(hwndDlg, IDC_RADIO_RED, IDC_RADIO_YELLOW, IDC_RADIO_GREEN);
-          gracz = green;
+          graczx.next();
           break;
         case green:
           CheckRadioButton(hwndDlg, IDC_RADIO_RED, IDC_RADIO_YELLOW, IDC_RADIO_YELLOW);
-          gracz = yellow;
+          graczx.next();
           break;
         }
         tries = 0;
       }
+}
+
+void sprawdz_wygranego(HWND hwndDlg, Player &graczx)
+{
+
+  if (graczx.grajace_kolory.size() == 1)
+  {
+    Sleep(2000);
+    graczx.aktualny = graczx.grajace_kolory[0];
+    char szText[500];
+    switch (graczx.aktualny)
+    {
+    case 0:
+      CheckRadioButton(hwndDlg, IDC_RADIO_RED, IDC_RADIO_YELLOW, IDC_RADIO_YELLOW);
+      wsprintf(szText, "Wygra³ ¿ó³ty");
+      break;
+    case 1:
+      wsprintf(szText, "Wygra³ czerwony");
+      CheckRadioButton(hwndDlg, IDC_RADIO_RED, IDC_RADIO_YELLOW, IDC_RADIO_RED); 
+      break;
+    case 2:
+      wsprintf(szText, "Wygra³ niebieski");
+      CheckRadioButton(hwndDlg, IDC_RADIO_RED, IDC_RADIO_YELLOW, IDC_RADIO_BLUE); 
+      break;
+    case 3:
+      wsprintf(szText, "Wygra³ zielony");
+      CheckRadioButton(hwndDlg, IDC_RADIO_RED, IDC_RADIO_YELLOW, IDC_RADIO_GREEN); 
+      break;
+    }
+    MessageBox(hwndDlg, szText, "Wygrana", MB_OK);
+    czysc(hwndDlg);
+    isPlayerdrawn = true;
+    graczx.grajace_kolory.clear();
+    graczx.grajace_kolory.push_back(yellow);
+    graczx.grajace_kolory.push_back(red);
+    graczx.grajace_kolory.push_back(blue);
+    graczx.grajace_kolory.push_back(green);
+  }
 }
 
 
@@ -319,7 +457,6 @@ INT_PTR CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
           isGameOn = true; 
           isPlayerdrawn = false;
           //ustawienie poczatkowego gracza
-          gracz = yellow;
          
           CHAR szText[500];
           HWND hwndButtonStart = GetDlgItem(hwndDlg, IDC_BUTTON_START);
@@ -363,13 +500,13 @@ INT_PTR CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
 
         if (isGameOn == true && isPlayerdrawn == true)
         {
-          rzut_kostka3(hwndDlg, gracz, hdc, tries);
+          rzut_kostka3(hwndDlg, graczx, hdc, tries);
 
         }
         if (isGameOn == true && isPlayerdrawn == false) 
         {
-          losuj_gracza(hwndDlg, gracz, drawing);
-
+          losuj_gracza(hwndDlg, graczx, drawing, placing);
+          sprawdz_wygranego(hwndDlg, graczx);
         }
 
         return TRUE;
