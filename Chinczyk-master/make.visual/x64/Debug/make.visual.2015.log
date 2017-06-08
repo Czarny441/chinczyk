@@ -1,6 +1,6 @@
 ﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(368,5): warning MSB8004: Output Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Output Directory.
   main.cpp
-c:\users\kacper\desktop\chiczyk z gita\chinczyk-master v2\chinczyk-master\source\main.cpp(145): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-c:\users\kacper\desktop\chiczyk z gita\chinczyk-master v2\chinczyk-master\source\main.cpp(562): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-  make.visual.2015.vcxproj -> C:\Users\Kacper\Desktop\chiczyk z gita\chinczyk-master v2\Chinczyk-master\make.visual\\..\bin\Projekt1.exe
-  make.visual.2015.vcxproj -> C:\Users\Kacper\Desktop\chiczyk z gita\chinczyk-master v2\Chinczyk-master\make.visual\\..\bin\Projekt1.pdb (Partial PDB)
+c:\zaawansowane programowanie\chinczyk\chinczyk\chinczyk-master\chinczyk-master\source\main.cpp(145): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+c:\zaawansowane programowanie\chinczyk\chinczyk\chinczyk-master\chinczyk-master\source\main.cpp(584): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  make.visual.2015.vcxproj -> C:\Zaawansowane programowanie\chinczyk\chinczyk\chinczyk-master\Chinczyk-master\make.visual\\..\bin\Projekt1.exe
+  make.visual.2015.vcxproj -> C:\Zaawansowane programowanie\chinczyk\chinczyk\chinczyk-master\Chinczyk-master\make.visual\\..\bin\Projekt1.pdb (Partial PDB)

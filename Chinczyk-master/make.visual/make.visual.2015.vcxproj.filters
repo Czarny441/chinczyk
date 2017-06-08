@@ -54,5 +54,41 @@
     <Image Include="..\res\zolty.bmp">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="..\res\kostka1.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\res\kostka2.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\res\kostka3.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\res\kostka4.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\res\kostka5.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\res\kostka6.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\res\pies_pasterski2.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\res\owca_zolta.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\res\owca_czerwona.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\res\owca_niebieska.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\res\owca_zielona.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\res\pies_pasterski.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

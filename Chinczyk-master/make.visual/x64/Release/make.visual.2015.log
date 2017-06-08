@@ -1,0 +1,11 @@
+﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(368,5): warning MSB8004: Output Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Output Directory.
+  main.cpp
+..\source\main.cpp(409): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+..\source\main.cpp(1317): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  Generating code
+  2 of 317 functions ( 0.6%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
+  make.visual.2015.vcxproj -> C:\Users\Kacper\Desktop\zwp 02.06\kamila 06.06\Chinczyk-owce\make.visual\\..\bin\Projekt1.exe
+  make.visual.2015.vcxproj -> C:\Users\Kacper\Desktop\zwp 02.06\kamila 06.06\Chinczyk-owce\make.visual\\..\bin\Projekt1.pdb (Full PDB)

@@ -4,18 +4,91 @@
 #include <cstdlib>
 #include <vector>
 #include <ctime>
+#include <fstream>
+#include <string>
 
 using namespace std;
 
+int plansza[40][2] = {{ 10, 258 }, // start czerwony
+                      { 70, 258 },
+                      { 130, 258 },
+                      { 190, 258 },
+                      { 250, 258 },
+                      { 250, 195 }, 
+                      { 250, 135 },
+                      { 250, 75 },
+                      { 250, 15 },
+                      { 313, 15 },
+                      { 375, 15 }, // start niebieski 
+                      { 375, 75 },
+                      { 375, 135 },
+                      { 375, 195 }, 
+                      { 375, 258 },
+                      { 435, 258 }, 
+                      { 495, 258 }, 
+                      { 555, 258 },
+                      { 615, 258 },
+                      { 615, 318 },
+                      { 615, 378 }, // start zielony
+                      { 555, 378 },
+                      { 495, 378 },
+                      { 435, 378 },
+                      { 375, 378 },
+                      { 375, 438 },
+                      { 375, 498 },
+                      { 375, 558 },
+                      { 375, 618 },
+                      { 313, 618 },
+                      { 250, 618 }, // start zolty
+                      { 250, 558 },
+                      { 250, 498 },
+                      { 250, 438 },
+                      { 250, 378 },
+                      { 190, 378 },
+                      { 130, 378 },
+                      { 70, 378 },
+                      { 10, 378 },
+                      { 10, 318 }};
+
+int domek_czerwony[4][2] = { { 70, 318 },
+                             { 130, 318 },
+                             { 190, 318 },
+                             { 250, 318 } };
+int domek_niebieski[4][2] = { { 313, 75},
+                              { 313, 135 },
+                              { 313, 195 },
+                              { 313, 255 } };
+int domek_zielony[4][2] = { { 555, 318},
+                            { 495, 318 },
+                            { 435, 318 },
+                            { 375, 318 } };
+int domek_zolty[4][2] = { { 313, 558},
+                          { 313, 498 },
+                          { 313, 438 },
+                          { 313, 378 } };
+
+int ilosc_czerwonych_w_domku = 0, ilosc_niebieskich_w_domku = 0, ilosc_zielonych_w_domku = 0, ilosc_zoltych_w_domku = 0;
+
 bool isGameOn = false;  //czy gra zosta³a zaczêta
 bool isPlayerdrawn;   //czy zaczynaj¹cy gracz zosta³ ju¿ wylosowany
-int value;   //wartoœæ rzutu kostk¹
+int value;   //wartoœæ rzutu kostk¹, do przesuwania po planszy
+
 int y_val, r_val, b_val, g_val;   //wartoœci rzutu kostk¹ dla poszczególnych graczy
+
 HBITMAP hBitmapGameBoard;
 HBITMAP hBitmapYellow;
 HBITMAP hBitmapRed;
 HBITMAP hBitmapBlue;
 HBITMAP hBitmapGreen;
+HBITMAP hBitmapOne;
+HBITMAP hBitmapTwo;
+HBITMAP hBitmapThree;
+HBITMAP hBitmapFour;
+HBITMAP hBitmapFive;
+HBITMAP hBitmapSix;
+HBITMAP hBitmapDog;
+HBITMAP hBitmapDog2;
+
 HINSTANCE hInst;
 vector <int> drawing;  //wektor rzutów przy losowaniu
 vector <int> placing;  //wektor pokazuj¹cy, ogo nale¿y usun¹æ z losowania (kto rzuci³ najmniej)
@@ -25,6 +98,45 @@ int length = 0; //sprawdzanie d³ugoœci wektora do czyszczenia drawing
 int size_kolor = 0; //d³ugoœæ wektora kolorów
 bool firstdraw = true;   //dotyczy pierwszego losowania
 Player graczx = Player();
+
+int wartosc_kostki = 0;
+
+bool dice_click = false; //czy kostka zosta³a naciœniêta
+
+//zmienne zawierajace aktualne pozycje wszystkich pionkow
+int akt_pozycja_red1[2]{ 15, 10 }, akt_pozycja_red2[2]{ 75, 10 }, akt_pozycja_red3[2]{ 15, 75 }, akt_pozycja_red4[2]{ 75, 75 };
+int akt_pozycja_green1[2]{ 555, 565 }, akt_pozycja_green2[2]{ 614, 565 }, akt_pozycja_green3[2]{ 555, 630 }, akt_pozycja_green4[2]{ 614, 630 };
+int akt_pozycja_blue1[2]{ 555, 10 }, akt_pozycja_blue2[2]{ 614, 10 }, akt_pozycja_blue3[2]{ 555, 75 }, akt_pozycja_blue4[2]{ 614, 75 };
+int akt_pozycja_yellow1[2]{ 15, 565 }, akt_pozycja_yellow2[2]{ 75, 565 }, akt_pozycja_yellow3[2]{ 15, 630 }, akt_pozycja_yellow4[2]{ 75, 630 };
+//---!!!---
+
+//zmienne do wyliczania przesuniecia pionka
+int pop_pozycja_red1 = 0, pop_pozycja_red2 = 0, pop_pozycja_red3 = 0, pop_pozycja_red4 = 0;
+int pop_pozycja_green1 = 20, pop_pozycja_green2 = 0, pop_pozycja_green3 = 0, pop_pozycja_green4 = 0;
+int pop_pozycja_blue1 = 10, pop_pozycja_blue2 = 0, pop_pozycja_blue3 = 0, pop_pozycja_blue4 = 0;
+int pop_pozycja_yellow1 = 30, pop_pozycja_yellow2 = 0, pop_pozycja_yellow3 = 0, pop_pozycja_yellow4 = 0;
+//---!!!---
+
+//zmienne do umieszczenia pionków w domkach
+int poczatkowy_ruch_red1 = 0;
+int poczatkowy_ruch_green1 = 0;
+int poczatkowy_ruch_blue1 = 0;
+int poczatkowy_ruch_yellow1 = 0;
+//---!!!---
+
+//zmienne zawierajace informacje o tym czy dany pionek jest wystawiony 
+bool red1_wystawiony = false, red2_wystawiony = false, red3_wystawiony = false, red4_wystawiony = false;
+bool green1_wystawiony = false, green2_wystawiony = false, green3_wystawiony = false, green4_wystawiony = false;
+bool blue1_wystawiony = false, blue2_wystawiony = false, blue3_wystawiony = false, blue4_wystawiony = false;
+bool yellow1_wystawiony = false, yellow2_wystawiony = false, yellow3_wystawiony = false, yellow4_wystawiony = false;
+//---!!!---
+
+//zmienne zawierajace informacje o tym czy dany pionek jest w domku 
+bool red1_w_domku = false, red2_w_domku = false, red3_w_domku = false, red4_w_domku = false;
+bool green1_w_domku = false, green2_w_domku = false, green3_w_domku = false, green4_w_domku = false;
+bool blue1_w_domku = false, blue2_w_domku = false, blue3_w_domku = false, blue4_w_domku = false;
+bool yellow1_w_domku = false, yellow2_w_domku = false, yellow3_w_domku = false, yellow4_w_domku = false;
+//---!!!---
 
 void drawBoard(HDC hdc) 
 {
@@ -67,7 +179,59 @@ void drawGreen(HDC hdc, int x, int y)
   DeleteDC(hDCBitmap);
 }
 
-void fillPlacing(vector <int> &placing, vector <int> drawing)
+void RysowaniePionkow(HDC hdc)
+{
+  drawBoard(hdc);
+
+  drawGreen(hdc, akt_pozycja_green1[0], akt_pozycja_green1[1]);
+  drawGreen(hdc, akt_pozycja_green2[0], akt_pozycja_green2[1]);
+  drawGreen(hdc, akt_pozycja_green3[0], akt_pozycja_green3[1]);
+  drawGreen(hdc, akt_pozycja_green4[0], akt_pozycja_green4[1]);
+
+  drawBlue(hdc, akt_pozycja_blue1[0], akt_pozycja_blue1[1]);
+  drawBlue(hdc, akt_pozycja_blue2[0], akt_pozycja_blue2[1]);
+  drawBlue(hdc, akt_pozycja_blue3[0], akt_pozycja_blue3[1]);
+  drawBlue(hdc, akt_pozycja_blue4[0], akt_pozycja_blue4[1]);
+
+  drawYellow(hdc, akt_pozycja_yellow1[0], akt_pozycja_yellow1[1]);
+  drawYellow(hdc, akt_pozycja_yellow2[0], akt_pozycja_yellow2[1]);
+  drawYellow(hdc, akt_pozycja_yellow3[0], akt_pozycja_yellow3[1]);
+  drawYellow(hdc, akt_pozycja_yellow4[0], akt_pozycja_yellow4[1]);
+
+  drawRed(hdc, akt_pozycja_red1[0], akt_pozycja_red1[1]);
+  drawRed(hdc, akt_pozycja_red2[0], akt_pozycja_red2[1]);
+  drawRed(hdc, akt_pozycja_red3[0], akt_pozycja_red3[1]);
+  drawRed(hdc, akt_pozycja_red4[0], akt_pozycja_red4[1]);
+}
+
+bool wczytajPlik(string nazwaPliku, HDC hdc, HWND hwndDlg) // testowa funkcja wczytujaca wspolrzedne pol z plik "pozycje.txt" - nie wiem czy sie przyda
+{
+  std::ifstream plik;
+  plik.open(nazwaPliku.c_str());
+  if (!plik.good())
+    return false;
+
+  while (true) //pêtla nieskoñczona
+  {
+    plik >> akt_pozycja_red1[0];
+    plik >> akt_pozycja_red1[1];
+    if (plik.good())
+    {
+      drawRed(hdc, akt_pozycja_red1[0], akt_pozycja_red1[1]);
+      break;
+    }
+    else
+    {
+      CHAR szText[500];
+      wsprintf(szText, "blad");
+      MessageBox(hwndDlg, szText, "Wygrana", MB_OK);
+      break; //zakoñcz wczytywanie danych - wyst¹pi³ jakiœ b³¹d (np. nie ma wiêcej danych w pliku)
+    }
+  } //while
+  return true;
+}
+
+void fillPlacing()
 {
   placing.clear();
   for (int i = 0; i < drawing.size(); i++)
@@ -76,7 +240,7 @@ void fillPlacing(vector <int> &placing, vector <int> drawing)
   }
 }
 
-void maxdraw(vector <int> &drawing, vector <int> &placing)
+void maxdraw()
 {
   int max = 0;
   int place = 0;
@@ -87,7 +251,7 @@ void maxdraw(vector <int> &drawing, vector <int> &placing)
     {
       max = drawing[i];
 
-      fillPlacing(placing,drawing);
+      fillPlacing();
       placing.erase(placing.begin() + i);
       erasing = 0;
     }
@@ -106,16 +270,116 @@ void maxdraw(vector <int> &drawing, vector <int> &placing)
   }
 }
 
-
-
-
+void DrawOne(HDC hdc) 
+{
+  HDC hDCBitmap;
+  hDCBitmap = CreateCompatibleDC(hdc);
+  SelectObject(hDCBitmap, hBitmapOne);
+  BitBlt(hdc, 750, 400, 95, 95, hDCBitmap, 0, 0, SRCCOPY);
+  DeleteDC(hDCBitmap);
+}
+void DrawTwo(HDC hdc)
+{
+  HDC hDCBitmap;
+  hDCBitmap = CreateCompatibleDC(hdc);
+  SelectObject(hDCBitmap, hBitmapTwo);
+  BitBlt(hdc, 750, 400, 95, 95, hDCBitmap, 0, 0, SRCCOPY);
+  DeleteDC(hDCBitmap);
+}
+void DrawThree(HDC hdc)
+{
+  HDC hDCBitmap;
+  hDCBitmap = CreateCompatibleDC(hdc);
+  SelectObject(hDCBitmap, hBitmapThree);
+  BitBlt(hdc, 750, 400, 95, 95, hDCBitmap, 0, 0, SRCCOPY);
+  DeleteDC(hDCBitmap);
+}
+void DrawFour(HDC hdc)
+{
+  HDC hDCBitmap;
+  hDCBitmap = CreateCompatibleDC(hdc);
+  SelectObject(hDCBitmap, hBitmapFour);
+  BitBlt(hdc, 750, 400, 95, 95, hDCBitmap, 0, 0, SRCCOPY);
+  DeleteDC(hDCBitmap);
+}
+void DrawFive(HDC hdc)
+{
+  HDC hDCBitmap;
+  hDCBitmap = CreateCompatibleDC(hdc);
+  SelectObject(hDCBitmap, hBitmapFive);
+  BitBlt(hdc, 750, 400, 95, 95, hDCBitmap, 0, 0, SRCCOPY);
+  DeleteDC(hDCBitmap);
+}
+void DrawSix(HDC hdc)
+{
+  HDC hDCBitmap;
+  hDCBitmap = CreateCompatibleDC(hdc);
+  SelectObject(hDCBitmap, hBitmapSix);
+  BitBlt(hdc, 750, 400, 95, 95, hDCBitmap, 0, 0, SRCCOPY);
+  DeleteDC(hDCBitmap);
+}
+void DrawDog(HDC hdc)
+{
+  HDC hDCBitmap;
+  hDCBitmap = CreateCompatibleDC(hdc);
+  SelectObject(hDCBitmap, hBitmapDog);
+  BitBlt(hdc, 140, 160, 100, 96, hDCBitmap, 0, 0, SRCCOPY);
+  DeleteDC(hDCBitmap);
+}
+void DrawDog2(HDC hdc)
+{
+  HDC hDCBitmap;
+  hDCBitmap = CreateCompatibleDC(hdc);
+  SelectObject(hDCBitmap, hBitmapDog);
+  BitBlt(hdc, 140, 450, 100, 96, hDCBitmap, 0, 0, SRCCOPY);
+  DeleteDC(hDCBitmap);
+}
+void DrawDog3(HDC hdc)
+{
+  HDC hDCBitmap;
+  hDCBitmap = CreateCompatibleDC(hdc);
+  SelectObject(hDCBitmap, hBitmapDog2);
+  BitBlt(hdc, 455, 155, 100, 96, hDCBitmap, 0, 0, SRCCOPY);
+  DeleteDC(hDCBitmap);
+}
+void DrawDog4(HDC hdc)
+{
+  HDC hDCBitmap;
+  hDCBitmap = CreateCompatibleDC(hdc);
+  SelectObject(hDCBitmap, hBitmapDog2);
+  BitBlt(hdc, 460, 450, 100, 96, hDCBitmap, 0, 0, SRCCOPY);
+  DeleteDC(hDCBitmap);
+}
 int kostka(HWND hwndDlg)
 {
+  HDC hdc = GetDC(hwndDlg);
   value = rand() % 6 + 1;
+  switch (value) 
+  {
+  case 1:
+    DrawOne(hdc);
+    break;
+  case 2:
+    DrawTwo(hdc);
+    break;
+  case 3:
+    DrawThree(hdc);
+    break;
+  case 4:
+    DrawFour(hdc);
+    break;
+  case 5:
+    DrawFive(hdc);
+    break;
+  case 6:
+    DrawSix(hdc);
+    break;
+  }
+  /*
   HWND hwndButton = GetDlgItem(hwndDlg, IDC_BUTTON_KOSTKA);
   CHAR szText[500];
   wsprintf(szText, "%d", value);
-  SetWindowText(hwndButton, szText);
+  SetWindowText(hwndButton, szText);*/
   return value;
 }
 //void drawhome();
@@ -132,7 +396,7 @@ void czysc(HWND hwndDlg)
   wsprintf(szText, "", b_val);  SetWindowText(hwndstatic_b, szText);
 }
 
-void losuj_gracza(HWND hwndDlg, Player &graczx, vector<int> &drawing, vector <int> &placing)
+void losuj_gracza(HWND hwndDlg)
 {
   if (length == size_kolor)
   {
@@ -174,7 +438,7 @@ void losuj_gracza(HWND hwndDlg, Player &graczx, vector<int> &drawing, vector <in
     if (drawing.size() == size_kolor)
     {
       int erasing = 0;
-      maxdraw(drawing, placing);
+      maxdraw();
       for (int i = 0; i < placing.size(); i++)
       {
         for (int j = 0; j < 4; j++)
@@ -215,7 +479,7 @@ void losuj_gracza(HWND hwndDlg, Player &graczx, vector<int> &drawing, vector <in
     if (drawing.size() == size_kolor)
     {
       int erasing = 0;
-      maxdraw(drawing, placing);
+      maxdraw();
       for (int i = 0; i < placing.size(); i++)
       {
         for (int j = 0; j < 4; j++)
@@ -256,7 +520,7 @@ void losuj_gracza(HWND hwndDlg, Player &graczx, vector<int> &drawing, vector <in
     if (drawing.size() == size_kolor)
     {
       int erasing = 0;
-      maxdraw(drawing, placing);
+      maxdraw();
       for (int i = 0; i < placing.size(); i++)
       {
         for (int j = 0; j < 4; j++)
@@ -291,33 +555,205 @@ void losuj_gracza(HWND hwndDlg, Player &graczx, vector<int> &drawing, vector <in
   length++;
 }
 
-void wystaw_pionka(HWND hwnDlg, Player graczx, HDC hdc)
+void wystaw_pionka(HWND hwnDlg, HDC hdc)
 {
   switch (graczx.aktualny)
   {
   case yellow:
-    drawYellow(hdc, 250, 630);
+    if(!yellow1_wystawiony && akt_pozycja_yellow2[0] != 250 && akt_pozycja_yellow2[1] != 618 //sprawdz czy pionek nie jest wystawiony i czy nie stoi tam inny pionek
+                           && akt_pozycja_yellow3[0] != 250 && akt_pozycja_yellow3[1] != 618
+                           && akt_pozycja_yellow4[0] != 250 && akt_pozycja_yellow4[1] != 618)
+    {
+      akt_pozycja_yellow1[0] = 250;
+      akt_pozycja_yellow1[1] = 618;
+      drawYellow(hdc, akt_pozycja_yellow1[0], akt_pozycja_yellow1[1]);
+      RysowaniePionkow(hdc);//odrysowanie planszy z aktualnymi pozycjami wszystkich pionkow
+      yellow1_wystawiony = true;
+      break;
+    }
+    if (!yellow2_wystawiony && akt_pozycja_yellow1[0] != 250 && akt_pozycja_yellow1[1] != 618 //sprawdz czy pionek nie jest wystawiony i czy nie stoi tam inny pionek
+                            && akt_pozycja_yellow3[0] != 250 && akt_pozycja_yellow3[1] != 618
+                            && akt_pozycja_yellow4[0] != 250 && akt_pozycja_yellow4[1] != 618)
+    {
+      akt_pozycja_yellow2[0] = 250;
+      akt_pozycja_yellow2[1] = 618;
+      drawYellow(hdc, akt_pozycja_yellow2[0], akt_pozycja_yellow2[1]);
+      RysowaniePionkow(hdc);
+      yellow2_wystawiony = true;
+      break;
+    }
+    if (!yellow3_wystawiony && akt_pozycja_yellow2[0] != 250 && akt_pozycja_yellow2[1] != 618 //sprawdz czy pionek nie jest wystawiony i czy nie stoi tam inny pionek
+                            && akt_pozycja_yellow1[0] != 250 && akt_pozycja_yellow1[1] != 618
+                            && akt_pozycja_yellow4[0] != 250 && akt_pozycja_yellow4[1] != 618)
+    {
+      akt_pozycja_yellow3[0] = 250;
+      akt_pozycja_yellow3[1] = 618;
+      drawYellow(hdc, akt_pozycja_yellow3[0], akt_pozycja_yellow3[1]);
+      RysowaniePionkow(hdc);
+      yellow3_wystawiony = true;
+      break;
+    }
+    if (!yellow4_wystawiony && akt_pozycja_yellow2[0] != 250 && akt_pozycja_yellow2[1] != 618 //sprawdz czy pionek nie jest wystawiony i czy nie stoi tam inny pionek
+                            && akt_pozycja_yellow3[0] != 250 && akt_pozycja_yellow3[1] != 618
+                            && akt_pozycja_yellow1[0] != 250 && akt_pozycja_yellow1[1] != 618)
+    {
+      akt_pozycja_yellow4[0] = 250;
+      akt_pozycja_yellow4[1] = 618;
+      drawYellow(hdc, akt_pozycja_yellow4[0], akt_pozycja_yellow4[1]);
+      RysowaniePionkow(hdc);
+      yellow4_wystawiony = true;
+      break;
+    }
     break;
   case red:
-    drawRed(hdc, 20, 260);
+    if (!red1_wystawiony && akt_pozycja_red2[0] != 10 && akt_pozycja_red2[1] != 258 //sprawdz czy pionek nie jest wystawiony i czy nie stoi tam inny pionek
+                         && akt_pozycja_red3[0] != 10 && akt_pozycja_red3[1] != 258
+                         && akt_pozycja_red4[0] != 10 && akt_pozycja_red4[1] != 258 && !red1_w_domku)
+    {
+      akt_pozycja_red1[0] = 10;
+      akt_pozycja_red1[1] = 258;
+      drawRed(hdc, akt_pozycja_red1[0], akt_pozycja_red1[1]);
+      RysowaniePionkow(hdc);
+      red1_wystawiony = true;
+      break;
+    }
+    if (!red2_wystawiony && akt_pozycja_red1[0] != 10 && akt_pozycja_red1[1] != 258 //sprawdz czy pionek nie jest wystawiony i czy nie stoi tam inny pionek
+                          && akt_pozycja_red3[0] != 10 && akt_pozycja_red3[1] != 258
+                          && akt_pozycja_red4[0] != 10 && akt_pozycja_red4[1] != 258)
+    {
+      akt_pozycja_red2[0] = 10;
+      akt_pozycja_red2[1] = 258;
+      drawRed(hdc, akt_pozycja_red2[0], akt_pozycja_red2[1]);
+      RysowaniePionkow(hdc);
+      red2_wystawiony = true;
+      break;
+    }
+    if (!red3_wystawiony && akt_pozycja_red2[0] != 10 && akt_pozycja_red2[1] != 258 //sprawdz czy pionek nie jest wystawiony i czy nie stoi tam inny pionek
+                          && akt_pozycja_red1[0] != 10 && akt_pozycja_red1[1] != 258
+                          && akt_pozycja_red4[0] != 10 && akt_pozycja_red4[1] != 258)
+    {
+      akt_pozycja_red3[0] = 10;
+      akt_pozycja_red3[1] = 258;
+      drawRed(hdc, akt_pozycja_red3[0], akt_pozycja_red3[1]);
+      RysowaniePionkow(hdc);
+      red3_wystawiony = true;
+      break;
+    }
+    if (!red4_wystawiony && akt_pozycja_red2[0] != 10 && akt_pozycja_red2[1] != 258 //sprawdz czy pionek nie jest wystawiony i czy nie stoi tam inny pionek
+                          && akt_pozycja_red3[0] != 10 && akt_pozycja_red3[1] != 258
+                          && akt_pozycja_red1[0] != 10 && akt_pozycja_red1[1] != 258)
+    {
+      akt_pozycja_red4[0] = 10;
+      akt_pozycja_red4[1] = 258;
+      drawRed(hdc, akt_pozycja_red4[0], akt_pozycja_red4[1]);
+      RysowaniePionkow(hdc);
+      red4_wystawiony = true;
+      break;
+    }
     break;
   case blue:
-    drawBlue(hdc, 380, 20);
+    if (!blue1_wystawiony && akt_pozycja_blue2[0] != 375 && akt_pozycja_blue2[1] != 15 //sprawdz czy pionek nie jest wystawiony i czy nie stoi tam inny pionek
+                          && akt_pozycja_blue3[0] != 375 && akt_pozycja_blue3[1] != 15
+                          && akt_pozycja_blue4[0] != 375 && akt_pozycja_blue4[1] != 15)
+    {
+      akt_pozycja_blue1[0] = 375;
+      akt_pozycja_blue1[1] = 15;
+      drawBlue(hdc, akt_pozycja_blue1[0], akt_pozycja_blue1[1]);
+      RysowaniePionkow(hdc);
+      blue1_wystawiony = true;
+      break;
+    }
+    if (!blue2_wystawiony && akt_pozycja_blue1[0] != 375 && akt_pozycja_blue1[1] != 15 //sprawdz czy pionek nie jest wystawiony i czy nie stoi tam inny pionek
+                          && akt_pozycja_blue3[0] != 375 && akt_pozycja_blue3[1] != 15
+                          && akt_pozycja_blue4[0] != 375 && akt_pozycja_blue4[1] != 15)
+    {
+      akt_pozycja_blue2[0] = 375;
+      akt_pozycja_blue2[1] = 15;
+      drawBlue(hdc, akt_pozycja_blue2[0], akt_pozycja_blue2[1]);
+      RysowaniePionkow(hdc);
+      blue2_wystawiony = true;
+      break;
+    }
+    if (!blue3_wystawiony && akt_pozycja_blue2[0] != 375 && akt_pozycja_blue2[1] != 15 //sprawdz czy pionek nie jest wystawiony i czy nie stoi tam inny pionek
+                          && akt_pozycja_blue1[0] != 375 && akt_pozycja_blue1[1] != 15
+                          && akt_pozycja_blue4[0] != 375 && akt_pozycja_blue4[1] != 15)
+    {
+      akt_pozycja_blue3[0] = 375;
+      akt_pozycja_blue3[1] = 15;
+      drawBlue(hdc, akt_pozycja_blue3[0], akt_pozycja_blue3[1]);
+      RysowaniePionkow(hdc);
+      blue3_wystawiony = true;
+      break;
+    }
+    if (!blue4_wystawiony && akt_pozycja_blue2[0] != 375 && akt_pozycja_blue2[1] != 15 //sprawdz czy pionek nie jest wystawiony i czy nie stoi tam inny pionek
+                          && akt_pozycja_blue3[0] != 375 && akt_pozycja_blue3[1] != 15
+                          && akt_pozycja_blue1[0] != 375 && akt_pozycja_blue1[1] != 15)
+    {
+      akt_pozycja_blue4[0] = 375;
+      akt_pozycja_blue4[1] = 15;
+      drawBlue(hdc, akt_pozycja_blue4[0], akt_pozycja_blue4[1]);
+      RysowaniePionkow(hdc);
+      blue4_wystawiony = true;
+      break;
+    }
     break;
   case green:
-    drawGreen(hdc, 620, 380);
+    if (!green1_wystawiony && akt_pozycja_green2[0] != 615 && akt_pozycja_green2[1] != 378 //sprawdz czy pionek nie jest wystawiony i czy nie stoi tam inny pionek
+                           && akt_pozycja_green3[0] != 615 && akt_pozycja_green3[1] != 378
+                           && akt_pozycja_green4[0] != 615 && akt_pozycja_green4[1] != 378)
+    {
+      akt_pozycja_green1[0] = 615;
+      akt_pozycja_green1[1] = 378;
+      drawGreen(hdc, akt_pozycja_green1[0], akt_pozycja_green1[1]);
+      RysowaniePionkow(hdc);
+      green1_wystawiony = true;
+      break;
+    }
+    if (!green2_wystawiony && akt_pozycja_green1[0] != 615 && akt_pozycja_green1[1] != 378
+                           && akt_pozycja_green3[0] != 615 && akt_pozycja_green3[1] != 378
+                           && akt_pozycja_green4[0] != 615 && akt_pozycja_green4[1] != 378)
+    {
+      akt_pozycja_green2[0] = 615;
+      akt_pozycja_green2[1] = 378;
+      drawGreen(hdc, akt_pozycja_green2[0], akt_pozycja_green2[1]);
+      RysowaniePionkow(hdc);
+      green2_wystawiony = true;
+      break;
+    }
+    if (!green3_wystawiony && akt_pozycja_green1[0] != 615 && akt_pozycja_green1[1] != 378
+                           && akt_pozycja_green2[0] != 615 && akt_pozycja_green2[1] != 378
+                           && akt_pozycja_green4[0] != 615 && akt_pozycja_green4[1] != 378)
+    {
+      akt_pozycja_green3[0] = 615;
+      akt_pozycja_green3[1] = 378;
+      drawGreen(hdc, akt_pozycja_green3[0], akt_pozycja_green3[1]);
+      RysowaniePionkow(hdc);
+      green3_wystawiony = true;
+      break;
+    }
+    if (!green4_wystawiony && akt_pozycja_green1[0] != 615 && akt_pozycja_green1[1] != 378
+                            && akt_pozycja_green2[0] != 615 && akt_pozycja_green2[1] != 378
+                            && akt_pozycja_green3[0] != 615 && akt_pozycja_green3[1] != 378)
+    {
+      akt_pozycja_green4[0] = 615;
+      akt_pozycja_green4[1] = 378;
+      drawGreen(hdc, akt_pozycja_green4[0], akt_pozycja_green4[1]);
+      RysowaniePionkow(hdc);
+      green4_wystawiony = true;
+      break;
+    }
     break;
 
   }
 }
 
-void rzut_kostka3(HWND hwndDlg, Player &graczx, HDC hdc,int &tries)
+void rzut_kostka3(HWND hwndDlg, HDC hdc, int draw)
 {
       tries++;
-      int draw = kostka(hwndDlg);
+      //int draw = kostka(hwndDlg);
       if (draw == 6)
       {
-        wystaw_pionka(hwndDlg, graczx, hdc);
+        wystaw_pionka(hwndDlg, hdc);
         switch (graczx.aktualny)
         {
         case yellow:
@@ -365,9 +801,8 @@ void rzut_kostka3(HWND hwndDlg, Player &graczx, HDC hdc,int &tries)
       }
 }
 
-void sprawdz_wygranego(HWND hwndDlg, Player &graczx)
+void sprawdz_wygranego(HWND hwndDlg)
 {
-
   if (graczx.grajace_kolory.size() == 1)
   {
     Sleep(2000);
@@ -400,31 +835,9 @@ void sprawdz_wygranego(HWND hwndDlg, Player &graczx)
     graczx.grajace_kolory.push_back(red);
     graczx.grajace_kolory.push_back(blue);
     graczx.grajace_kolory.push_back(green);
+    firstdraw = false;
   }
 }
-
-
-
-
-/*LRESULT CALLBACK ButtonWndProc( HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam)
-{
-  switch (uMsg)
-  {
-  case WM_PAINT:
-  {
-    HDC hdc = GetDC(hwndDlg);
-    HDC hDCBitmap = CreateCompatibleDC(hdc);
-    SelectObject(hDCBitmap, hBitmapGameBoard);
-    BitBlt(hdc, 0, 0, 1920,1280, hDCBitmap, 0, 0, SRCCOPY);
-    DeleteDC(hDCBitmap);
-    ReleaseDC(hwndDlg, hdc);
-    return 0;
-  }
-  default:
-    return DefWindowProc(hwndDlg, uMsg, wParam, lParam);
-    //return CallWindowProc(wpOrgButtonProc, hwnd, uMsg, wParam, lParam);
-  }
-}*/
 
 INT_PTR CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam) 
 {
@@ -437,7 +850,14 @@ INT_PTR CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
     hBitmapRed = LoadBitmap(hInst, MAKEINTRESOURCE(IDB_BITMAP_CZERWONY));
     hBitmapBlue = LoadBitmap(hInst, MAKEINTRESOURCE(IDB_BITMAP_NIEBIESKI));
     hBitmapGreen = LoadBitmap(hInst, MAKEINTRESOURCE(IDB_BITMAP_ZIELONY));
-
+    hBitmapOne = LoadBitmap(hInst, MAKEINTRESOURCE(IDB_BITMAP_JEDEN));
+    hBitmapTwo = LoadBitmap(hInst, MAKEINTRESOURCE(IDB_BITMAP_DWA));
+    hBitmapThree = LoadBitmap(hInst, MAKEINTRESOURCE(IDB_BITMAP_TRZY));
+    hBitmapFour = LoadBitmap(hInst, MAKEINTRESOURCE(IDB_BITMAP_CZTERY));
+    hBitmapFive = LoadBitmap(hInst, MAKEINTRESOURCE(IDB_BITMAP_PIEC));
+    hBitmapSix = LoadBitmap(hInst, MAKEINTRESOURCE(IDB_BITMAP_SZESC));
+    hBitmapDog = LoadBitmap(hInst, MAKEINTRESOURCE(IDB_BITMAP_PIES));
+    hBitmapDog2 = LoadBitmap(hInst, MAKEINTRESOURCE(IDB_BITMAP_PIES2));
     HWND hwndButton = GetDlgItem(hwndDlg, IDC_BUTTON_START);
 //    WNDPROC wpOrgButtonProc = (WNDPROC)SetWindowLong(hwndButton, -4, (LONG)ButtonWndProc);
   }
@@ -464,26 +884,12 @@ INT_PTR CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
           SetWindowText(hwndButtonStart, szText);
 
           //Rysowanie siatki gry
-          drawGreen(hdc, 555,565);
-          drawGreen(hdc, 615, 565);
-          drawGreen(hdc, 555, 630);
-          drawGreen(hdc, 615, 630);
-
-          drawBlue(hdc, 555, 10);
-          drawBlue(hdc, 555, 75);
-          drawBlue(hdc, 615, 10);
-          drawBlue(hdc, 615, 75);
-
-          drawYellow(hdc, 15, 565);
-          drawYellow(hdc, 75, 565);
-          drawYellow(hdc, 15, 630);
-          drawYellow(hdc, 75, 630);
-
-          drawRed(hdc, 15, 10);
-          drawRed(hdc, 15, 75);
-          drawRed(hdc, 75, 10);
-          drawRed(hdc, 75, 75);
-
+          RysowaniePionkow(hdc);
+          DrawOne(hdc);
+          DrawDog(hdc);
+          DrawDog2(hdc);
+          DrawDog3(hdc);
+          DrawDog4(hdc);
           ReleaseDC(hwndDlg, hdc);
         }
         else
@@ -497,37 +903,385 @@ INT_PTR CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
         return TRUE;
         //RZUT KOSTKA
       case IDC_BUTTON_KOSTKA:
-
-        if (isGameOn == true && isPlayerdrawn == true)
-        {
-          rzut_kostka3(hwndDlg, graczx, hdc, tries);
-
+          if (isGameOn == true && isPlayerdrawn == true)
+          {
+            switch (graczx.aktualny)
+            {
+            case yellow:
+            {
+              if (!yellow1_wystawiony && !yellow2_wystawiony && !yellow3_wystawiony && !yellow4_wystawiony)
+              {
+                wartosc_kostki = kostka(hwndDlg);
+                rzut_kostka3(hwndDlg, hdc, wartosc_kostki);
+              }
+              else if (dice_click == false)
+              {
+                kostka(hwndDlg);
+                dice_click = true;
+              }
+              break;
+            }
+            case red:
+            {
+              if (!red1_wystawiony && !red2_wystawiony && !red3_wystawiony && !red4_wystawiony)
+              {
+                wartosc_kostki = kostka(hwndDlg);
+                rzut_kostka3(hwndDlg, hdc, wartosc_kostki);
+              }
+              else if (dice_click == false)
+              {
+                kostka(hwndDlg);
+                dice_click = true;
+              }
+              break;
+            }
+            case blue:
+            {
+              if (!blue1_wystawiony && !blue2_wystawiony && !blue3_wystawiony && !blue4_wystawiony)
+              {
+                wartosc_kostki = kostka(hwndDlg);
+                rzut_kostka3(hwndDlg, hdc, wartosc_kostki);
+              }
+              else if (dice_click == false)
+              {
+                kostka(hwndDlg);
+                dice_click = true;
+              }
+              break;
+            }
+            case green:
+            {
+              if (!green1_wystawiony && !green2_wystawiony && !green3_wystawiony && !green4_wystawiony && graczx.aktualny == green)
+              {
+                wartosc_kostki = kostka(hwndDlg);
+                rzut_kostka3(hwndDlg, hdc, wartosc_kostki);
+              }
+              else if (dice_click == false)
+              {
+                kostka(hwndDlg);
+                dice_click = true;
+              }
+              break;
+            }
+            }
+          }
+          if (isGameOn == true && isPlayerdrawn == false)
+          {
+            losuj_gracza(hwndDlg);
+            sprawdz_wygranego(hwndDlg);
+          }
+          return TRUE;
         }
-        if (isGameOn == true && isPlayerdrawn == false) 
-        {
-          losuj_gracza(hwndDlg, graczx, drawing, placing);
-          sprawdz_wygranego(hwndDlg, graczx);
-        }
-
-        return TRUE;
-
-
-      }
       return TRUE;
     }
   }
     return FALSE;
 
   case WM_LBUTTONDOWN: {
-    //CHAR szText[200];
     if (isGameOn == true)
     {
       HDC hdc = GetDC(hwndDlg);
-
       int x = LOWORD(lParam); int y = HIWORD(lParam);
-      if ((x > 0 && x < 700) && (y > 0 && y < 703))
+      if ((x > akt_pozycja_red1[0] && x < (akt_pozycja_red1[0] + 59)) && (y > akt_pozycja_red1[1] && y < (akt_pozycja_red1[1] + 59)) && red1_wystawiony
+        && graczx.aktualny == red && red1_w_domku) // obsluga ruchu pierwszego czerwonego pionka
       {
-        drawBlue(hdc, 100, 100);
+        CheckRadioButton(hwndDlg, IDC_RADIO_RED, IDC_RADIO_YELLOW, IDC_RADIO_BLUE);
+        graczx.next();
+        RysowaniePionkow(hdc);
+        dice_click = false;
+      }
+      if ((x > akt_pozycja_red1[0] && x < (akt_pozycja_red1[0] + 59)) && (y > akt_pozycja_red1[1] && y < (akt_pozycja_red1[1] + 59)) && red1_wystawiony
+        && graczx.aktualny == red && !red1_w_domku) // obsluga ruchu pierwszego czerwonego pionka
+      {
+        poczatkowy_ruch_red1 += value;
+        if (poczatkowy_ruch_red1 < 40)
+        {
+          akt_pozycja_red1[0] = plansza[poczatkowy_ruch_red1][0];
+          akt_pozycja_red1[1] = plansza[poczatkowy_ruch_red1][1];
+        }
+        else if (poczatkowy_ruch_red1 >= 40 && poczatkowy_ruch_red1 < 44)
+        {
+          akt_pozycja_red1[0] = domek_czerwony[(poczatkowy_ruch_red1)-40][0];
+          akt_pozycja_red1[1] = domek_czerwony[(poczatkowy_ruch_red1)-40][1];
+          red1_w_domku = true;
+        }
+        else
+        {
+          akt_pozycja_red1[0] = domek_czerwony[3 - (poczatkowy_ruch_red1 - 43)][0];
+          akt_pozycja_red1[1] = domek_czerwony[3 - (poczatkowy_ruch_red1 - 43)][1];
+          red1_w_domku = true;
+        }
+        CheckRadioButton(hwndDlg, IDC_RADIO_RED, IDC_RADIO_YELLOW, IDC_RADIO_BLUE);
+        graczx.next();
+        RysowaniePionkow(hdc);
+        dice_click = false;
+      }
+      if ((x > akt_pozycja_red2[0] && x < (akt_pozycja_red2[0] + 59)) && (y > akt_pozycja_red2[1] && y < (akt_pozycja_red2[1] + 59)) && red2_wystawiony
+        && graczx.aktualny == red) // obsluga ruchu pierwszego czerwonego pionka
+      {
+        if (pop_pozycja_red2 + value < 40)
+        {
+          akt_pozycja_red2[0] = plansza[pop_pozycja_red2 + value][0];
+          akt_pozycja_red2[1] = plansza[pop_pozycja_red2 + value][1];
+          pop_pozycja_red2 += value;
+        }
+        else
+        {
+          akt_pozycja_red2[0] = domek_czerwony[(pop_pozycja_red2 + value) - 40][0];
+          akt_pozycja_red2[1] = domek_czerwony[(pop_pozycja_red2 + value) - 40][1];
+          pop_pozycja_red2 += value;
+        }
+        CheckRadioButton(hwndDlg, IDC_RADIO_RED, IDC_RADIO_YELLOW, IDC_RADIO_BLUE);
+        graczx.next();
+        RysowaniePionkow(hdc);
+      }
+      if ((x > akt_pozycja_red3[0] && x < (akt_pozycja_red3[0] + 59)) && (y > akt_pozycja_red3[1] && y < (akt_pozycja_red3[1] + 59)) && red3_wystawiony
+        && graczx.aktualny == red) // obsluga ruchu pierwszego czerwonego pionka
+      {
+        if (pop_pozycja_red3 + value < 40)
+        {
+          akt_pozycja_red3[0] = plansza[pop_pozycja_red3 + value][0];
+          akt_pozycja_red3[1] = plansza[pop_pozycja_red3 + value][1];
+          pop_pozycja_red3 += value;
+        }
+        else
+        {
+          akt_pozycja_red3[0] = domek_czerwony[(pop_pozycja_red3 + value) - 40][0];
+          akt_pozycja_red3[1] = domek_czerwony[(pop_pozycja_red3 + value) - 40][1];
+          pop_pozycja_red3 += value;
+        }
+        CheckRadioButton(hwndDlg, IDC_RADIO_RED, IDC_RADIO_YELLOW, IDC_RADIO_BLUE);
+        graczx.next();
+        RysowaniePionkow(hdc);
+      }
+      if ((x > akt_pozycja_red4[0] && x < (akt_pozycja_red4[0] + 59)) && (y > akt_pozycja_red4[1] && y < (akt_pozycja_red4[1] + 59)) && red4_wystawiony
+        && graczx.aktualny == red) // obsluga ruchu pierwszego czerwonego pionka
+      {
+        if (pop_pozycja_red4 + value < 40)
+        {
+          akt_pozycja_red4[0] = plansza[pop_pozycja_red4 + value][0];
+          akt_pozycja_red4[1] = plansza[pop_pozycja_red4 + value][1];
+          pop_pozycja_red4 += value;
+        }
+        else
+        {
+          akt_pozycja_red4[0] = domek_czerwony[(pop_pozycja_red4 + value) - 40][0];
+          akt_pozycja_red4[1] = domek_czerwony[(pop_pozycja_red4 + value) - 40][1];
+          pop_pozycja_red4 += value;
+        }
+        CheckRadioButton(hwndDlg, IDC_RADIO_RED, IDC_RADIO_YELLOW, IDC_RADIO_BLUE);
+        graczx.next();
+        RysowaniePionkow(hdc);
+      }
+      if ((x > akt_pozycja_blue1[0] && x < (akt_pozycja_blue1[0] + 59)) && (y > akt_pozycja_blue1[1] && y < (akt_pozycja_blue1[1] + 59)) && blue1_wystawiony
+        && graczx.aktualny == blue && blue1_w_domku) // obsluga ruchu pierwszego czerwonego pionka
+      {
+        CheckRadioButton(hwndDlg, IDC_RADIO_RED, IDC_RADIO_YELLOW, IDC_RADIO_GREEN);
+        graczx.next();
+        RysowaniePionkow(hdc);
+        dice_click = false;
+      }
+      if ((x > akt_pozycja_blue1[0] && x < (akt_pozycja_blue1[0] + 59)) && (y > akt_pozycja_blue1[1] && y < (akt_pozycja_blue1[1] + 59)) && blue1_wystawiony
+        && graczx.aktualny == blue && !blue1_w_domku) // obsluga ruchu pierwszego czerwonego pionka
+      {
+        poczatkowy_ruch_blue1 += value;
+        if (poczatkowy_ruch_blue1 >= 40 && poczatkowy_ruch_blue1 < 44)
+        {
+          akt_pozycja_blue1[0] = domek_niebieski[(poczatkowy_ruch_blue1)-40][0];
+          akt_pozycja_blue1[1] = domek_niebieski[(poczatkowy_ruch_blue1)-40][1];
+          blue1_w_domku = true;
+        }
+        else if (poczatkowy_ruch_blue1 >= 44)
+        {
+          akt_pozycja_blue1[0] = domek_niebieski[3 - (poczatkowy_ruch_blue1 - 43)][0];
+          akt_pozycja_blue1[1] = domek_niebieski[3 - (poczatkowy_ruch_blue1 - 43)][1];
+          blue1_w_domku = true;
+        }
+        else if (poczatkowy_ruch_blue1 + pop_pozycja_blue1 < 40)
+        {
+          akt_pozycja_blue1[0] = plansza[poczatkowy_ruch_blue1 + pop_pozycja_blue1][0];
+          akt_pozycja_blue1[1] = plansza[poczatkowy_ruch_blue1 + pop_pozycja_blue1][1];
+        }
+        else if (poczatkowy_ruch_blue1 + pop_pozycja_blue1 >= 40)
+        {
+          pop_pozycja_blue1 -= 40;
+          akt_pozycja_blue1[0] = plansza[poczatkowy_ruch_blue1 + pop_pozycja_blue1][0];
+          akt_pozycja_blue1[1] = plansza[poczatkowy_ruch_blue1 + pop_pozycja_blue1][1];
+        }
+        CheckRadioButton(hwndDlg, IDC_RADIO_RED, IDC_RADIO_YELLOW, IDC_RADIO_GREEN);
+        dice_click = false;
+        graczx.next();
+        RysowaniePionkow(hdc);
+      }
+      if ((x > akt_pozycja_blue2[0] && x < (akt_pozycja_blue2[0] + 59)) && (y > akt_pozycja_blue2[1] && y < (akt_pozycja_blue2[1] + 59)) && blue2_wystawiony
+        && graczx.aktualny == blue) // obsluga ruchu pierwszego czerwonego pionka
+      {
+        akt_pozycja_blue2[0] = plansza[pop_pozycja_blue2 + value][0];
+        akt_pozycja_blue2[1] = plansza[pop_pozycja_blue2 + value][1];
+        pop_pozycja_blue2 += value;
+        CheckRadioButton(hwndDlg, IDC_RADIO_RED, IDC_RADIO_YELLOW, IDC_RADIO_GREEN);
+        graczx.next();
+        RysowaniePionkow(hdc);
+      }
+      if ((x > akt_pozycja_blue3[0] && x < (akt_pozycja_blue3[0] + 59)) && (y > akt_pozycja_blue3[1] && y < (akt_pozycja_blue3[1] + 59)) && blue3_wystawiony
+        && graczx.aktualny == blue) // obsluga ruchu pierwszego czerwonego pionka
+      {
+        akt_pozycja_blue3[0] = plansza[pop_pozycja_blue3 + value][0];
+        akt_pozycja_blue3[1] = plansza[pop_pozycja_blue3 + value][1];
+        pop_pozycja_blue3 += value;
+        CheckRadioButton(hwndDlg, IDC_RADIO_RED, IDC_RADIO_YELLOW, IDC_RADIO_GREEN);
+        graczx.next();
+        RysowaniePionkow(hdc);
+      }
+      if ((x > akt_pozycja_blue4[0] && x < (akt_pozycja_blue4[0] + 59)) && (y > akt_pozycja_blue4[1] && y < (akt_pozycja_blue4[1] + 59)) && blue4_wystawiony
+        && graczx.aktualny == blue) // obsluga ruchu pierwszego czerwonego pionka
+      {
+        akt_pozycja_blue4[0] = plansza[pop_pozycja_blue4 + value][0];
+        akt_pozycja_blue4[1] = plansza[pop_pozycja_blue4 + value][1];
+        pop_pozycja_blue4 += value;
+        CheckRadioButton(hwndDlg, IDC_RADIO_RED, IDC_RADIO_YELLOW, IDC_RADIO_GREEN);
+        graczx.next();
+        RysowaniePionkow(hdc);
+      }
+      if ((x > akt_pozycja_green1[0] && x < (akt_pozycja_green1[0] + 59)) && (y > akt_pozycja_green1[1] && y < (akt_pozycja_green1[1] + 59)) && green1_wystawiony
+        && graczx.aktualny == green && green1_w_domku) // obsluga ruchu pierwszego czerwonego pionka
+      {
+        CheckRadioButton(hwndDlg, IDC_RADIO_RED, IDC_RADIO_YELLOW, IDC_RADIO_YELLOW);
+        dice_click = false;
+        graczx.next();
+        RysowaniePionkow(hdc);
+      }
+      if ((x > akt_pozycja_green1[0] && x < (akt_pozycja_green1[0] + 59)) && (y > akt_pozycja_green1[1] && y < (akt_pozycja_green1[1] + 59)) && green1_wystawiony
+        && graczx.aktualny == green && !green1_w_domku) // obsluga ruchu pierwszego czerwonego pionka
+      {
+        poczatkowy_ruch_green1 += value;
+        if (poczatkowy_ruch_green1 >= 40 && poczatkowy_ruch_green1 < 44)
+        {
+          akt_pozycja_green1[0] = domek_zielony[(poczatkowy_ruch_green1)-40][0];
+          akt_pozycja_green1[1] = domek_zielony[(poczatkowy_ruch_green1)-40][1];
+          green1_w_domku = true;
+        }
+        else if (poczatkowy_ruch_green1 >= 44)
+        {
+          akt_pozycja_green1[0] = domek_zielony[3 - (poczatkowy_ruch_green1 - 43)][0];
+          akt_pozycja_green1[1] = domek_zielony[3 - (poczatkowy_ruch_green1 - 43)][1];
+          green1_w_domku = true;
+        }
+        else if (poczatkowy_ruch_green1 + pop_pozycja_green1 < 40)
+        {
+          akt_pozycja_green1[0] = plansza[poczatkowy_ruch_green1 + pop_pozycja_green1][0];
+          akt_pozycja_green1[1] = plansza[poczatkowy_ruch_green1 + pop_pozycja_green1][1];
+        }
+        else if (poczatkowy_ruch_green1 + pop_pozycja_green1 >= 40)
+        {
+          pop_pozycja_green1 -= 40;
+          akt_pozycja_green1[0] = plansza[poczatkowy_ruch_green1 + pop_pozycja_green1][0];
+          akt_pozycja_green1[1] = plansza[poczatkowy_ruch_green1 + pop_pozycja_green1][1];
+        }
+        CheckRadioButton(hwndDlg, IDC_RADIO_RED, IDC_RADIO_YELLOW, IDC_RADIO_YELLOW);
+        dice_click = false;
+        graczx.next();
+        RysowaniePionkow(hdc);
+      }
+      if ((x > akt_pozycja_green2[0] && x < (akt_pozycja_green2[0] + 59)) && (y > akt_pozycja_green2[1] && y < (akt_pozycja_green2[1] + 59)) && green2_wystawiony
+        && graczx.aktualny == green) // obsluga ruchu pierwszego czerwonego pionka
+      {
+        akt_pozycja_green2[0] = plansza[pop_pozycja_green2 + value][0];
+        akt_pozycja_green2[1] = plansza[pop_pozycja_green2 + value][1];
+        pop_pozycja_green2 += value;
+        CheckRadioButton(hwndDlg, IDC_RADIO_RED, IDC_RADIO_YELLOW, IDC_RADIO_YELLOW);
+        graczx.next();
+        RysowaniePionkow(hdc);
+      }
+      if ((x > akt_pozycja_green3[0] && x < (akt_pozycja_green3[0] + 59)) && (y > akt_pozycja_green3[1] && y < (akt_pozycja_green3[1] + 59)) && green3_wystawiony
+        && graczx.aktualny == green) // obsluga ruchu pierwszego czerwonego pionka
+      {
+        akt_pozycja_green3[0] = plansza[pop_pozycja_green3 + value][0];
+        akt_pozycja_green3[1] = plansza[pop_pozycja_green3 + value][1];
+        pop_pozycja_green3 += value;
+        CheckRadioButton(hwndDlg, IDC_RADIO_RED, IDC_RADIO_YELLOW, IDC_RADIO_YELLOW);
+        graczx.next();
+        RysowaniePionkow(hdc);
+      }
+      if ((x > akt_pozycja_green4[0] && x < (akt_pozycja_green4[0] + 59)) && (y > akt_pozycja_green4[1] && y < (akt_pozycja_green4[1] + 59)) && green4_wystawiony
+        && graczx.aktualny == green) // obsluga ruchu pierwszego czerwonego pionka
+      {
+        akt_pozycja_green4[0] = plansza[pop_pozycja_green4 + value][0];
+        akt_pozycja_green4[1] = plansza[pop_pozycja_green4 + value][1];
+        pop_pozycja_green4 += value;
+        CheckRadioButton(hwndDlg, IDC_RADIO_RED, IDC_RADIO_YELLOW, IDC_RADIO_YELLOW);
+        graczx.next();
+        RysowaniePionkow(hdc);
+      }
+      if ((x > akt_pozycja_yellow1[0] && x < (akt_pozycja_yellow1[0] + 59)) && (y > akt_pozycja_yellow1[1] && y < (akt_pozycja_yellow1[1] + 59)) && yellow1_wystawiony
+        && graczx.aktualny == yellow && yellow1_w_domku) // obsluga ruchu pierwszego czerwonego pionka
+      {
+        CheckRadioButton(hwndDlg, IDC_RADIO_RED, IDC_RADIO_YELLOW, IDC_RADIO_RED);
+        dice_click = false;
+        graczx.next();
+        RysowaniePionkow(hdc);
+      }
+      if ((x > akt_pozycja_yellow1[0] && x < (akt_pozycja_yellow1[0] + 59)) && (y > akt_pozycja_yellow1[1] && y < (akt_pozycja_yellow1[1] + 59)) && yellow1_wystawiony
+        && graczx.aktualny == yellow && !yellow1_w_domku) // obsluga ruchu pierwszego czerwonego pionka
+      {
+        poczatkowy_ruch_yellow1 += value;
+        if (poczatkowy_ruch_yellow1 >= 40 && poczatkowy_ruch_yellow1 < 44)
+        {
+          akt_pozycja_yellow1[0] = domek_zolty[(poczatkowy_ruch_yellow1)-40][0];
+          akt_pozycja_yellow1[1] = domek_zolty[(poczatkowy_ruch_yellow1)-40][1];
+          yellow1_w_domku = true;
+        }
+        else if (poczatkowy_ruch_yellow1 >= 44)
+        {
+          akt_pozycja_yellow1[0] = domek_zolty[3 - (poczatkowy_ruch_yellow1 - 43)][0];
+          akt_pozycja_yellow1[1] = domek_zolty[3 - (poczatkowy_ruch_yellow1 - 43)][1];
+          yellow1_w_domku = true;
+        }
+        else if (poczatkowy_ruch_yellow1 + pop_pozycja_yellow1 < 40)
+        {
+          akt_pozycja_yellow1[0] = plansza[poczatkowy_ruch_yellow1 + pop_pozycja_yellow1][0];
+          akt_pozycja_yellow1[1] = plansza[poczatkowy_ruch_yellow1 + pop_pozycja_yellow1][1];
+        }
+        else if (poczatkowy_ruch_yellow1 + pop_pozycja_yellow1 >= 40)
+        {
+          pop_pozycja_yellow1 -= 40;
+          akt_pozycja_yellow1[0] = plansza[poczatkowy_ruch_yellow1 + pop_pozycja_yellow1][0];
+          akt_pozycja_yellow1[1] = plansza[poczatkowy_ruch_yellow1 + pop_pozycja_yellow1][1];
+        }
+        CheckRadioButton(hwndDlg, IDC_RADIO_RED, IDC_RADIO_YELLOW, IDC_RADIO_RED);
+        dice_click = false;
+        graczx.next();
+        RysowaniePionkow(hdc);
+      }
+      if ((x > akt_pozycja_yellow2[0] && x < (akt_pozycja_yellow2[0] + 59)) && (y > akt_pozycja_yellow2[1] && y < (akt_pozycja_yellow2[1] + 59)) && yellow2_wystawiony
+        && graczx.aktualny == yellow) // obsluga ruchu pierwszego czerwonego pionka
+      {
+        akt_pozycja_yellow2[0] = plansza[pop_pozycja_yellow2 + value][0];
+        akt_pozycja_yellow2[1] = plansza[pop_pozycja_yellow2 + value][1];
+        pop_pozycja_yellow2 += value;
+        CheckRadioButton(hwndDlg, IDC_RADIO_RED, IDC_RADIO_YELLOW, IDC_RADIO_RED);
+        graczx.next();
+        RysowaniePionkow(hdc);
+      }
+      if ((x > akt_pozycja_yellow3[0] && x < (akt_pozycja_yellow3[0] + 59)) && (y > akt_pozycja_yellow3[1] && y < (akt_pozycja_yellow3[1] + 59)) && yellow3_wystawiony
+        && graczx.aktualny == yellow) // obsluga ruchu pierwszego czerwonego pionka
+      {
+        akt_pozycja_yellow3[0] = plansza[pop_pozycja_yellow3 + value][0];
+        akt_pozycja_yellow3[1] = plansza[pop_pozycja_yellow3 + value][1];
+        pop_pozycja_yellow3 += value;
+        CheckRadioButton(hwndDlg, IDC_RADIO_RED, IDC_RADIO_YELLOW, IDC_RADIO_RED);
+        graczx.next();
+        RysowaniePionkow(hdc);
+      }
+      if ((x > akt_pozycja_yellow4[0] && x < (akt_pozycja_yellow4[0] + 59)) && (y > akt_pozycja_yellow4[1] && y < (akt_pozycja_yellow4[1] + 59)) && yellow4_wystawiony
+        && graczx.aktualny == yellow) // obsluga ruchu pierwszego czerwonego pionka
+      {
+        akt_pozycja_yellow4[0] = plansza[pop_pozycja_yellow4 + value][0];
+        akt_pozycja_yellow4[1] = plansza[pop_pozycja_yellow4 + value][1];
+        pop_pozycja_yellow4 += value;
+        CheckRadioButton(hwndDlg, IDC_RADIO_RED, IDC_RADIO_YELLOW, IDC_RADIO_RED);
+        graczx.next();
+        RysowaniePionkow(hdc);
       }
       ReleaseDC(hwndDlg, hdc);
     }
@@ -537,6 +1291,7 @@ INT_PTR CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
   case WM_PAINT:{
     HDC hdc = GetDC(hwndDlg);
     drawBoard(hdc);
+    RysowaniePionkow(hdc);
     ReleaseDC(hwndDlg, hdc);
     return DefWindowProc(hwndDlg, uMsg, wParam, lParam);
   }
@@ -547,7 +1302,7 @@ INT_PTR CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
   case WM_CLOSE: {
     DestroyWindow(hwndDlg);
     PostQuitMessage(0);
-    for (int i = 0; i < 5; i++) { DeleteObject(hBitmapGameBoard + i); }
+    for (int i = 0; i < 11; i++) { DeleteObject(hBitmapGameBoard + i); }
   }
     return TRUE;
   }

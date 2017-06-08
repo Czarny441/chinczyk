@@ -128,7 +128,19 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\res\czerwony.bmp" />
+    <Image Include="..\res\kostka1.bmp" />
+    <Image Include="..\res\kostka2.bmp" />
+    <Image Include="..\res\kostka3.bmp" />
+    <Image Include="..\res\kostka4.bmp" />
+    <Image Include="..\res\kostka5.bmp" />
+    <Image Include="..\res\kostka6.bmp" />
     <Image Include="..\res\niebieski.bmp" />
+    <Image Include="..\res\owca_czerwona.bmp" />
+    <Image Include="..\res\owca_niebieska.bmp" />
+    <Image Include="..\res\owca_zielona.bmp" />
+    <Image Include="..\res\owca_zolta.bmp" />
+    <Image Include="..\res\pies_pasterski.bmp" />
+    <Image Include="..\res\pies_pasterski2.bmp" />
     <Image Include="..\res\plansza_800x804.bmp" />
     <Image Include="..\res\zielony.bmp" />
     <Image Include="..\res\zolty.bmp" />
