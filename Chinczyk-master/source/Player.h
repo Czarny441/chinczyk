@@ -1,4 +1,5 @@
-#pragma once
+#ifndef PROJEKT1_PLAYER_H
+#define PROJEKT1_PLAYER_H
 #include <vector>
 
 using namespace std;
@@ -15,3 +16,5 @@ public:
   void next();
 
 };
+
+#endif // !PROJEKT1_PLAYER_H
