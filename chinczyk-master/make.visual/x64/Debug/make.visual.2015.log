@@ -1,0 +1,21 @@
+﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(368,5): warning MSB8004: Output Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Output Directory.
+  main.cpp
+c:\users\admin\desktop\chinczyk-master\chinczyk-master\source\main.cpp(140): error C2065: 'hBitmapGameBoard': undeclared identifier
+c:\users\admin\desktop\chinczyk-master\chinczyk-master\source\main.cpp(148): error C2065: 'hBitmapYellow': undeclared identifier
+c:\users\admin\desktop\chinczyk-master\chinczyk-master\source\main.cpp(156): error C2065: 'hBitmapRed': undeclared identifier
+c:\users\admin\desktop\chinczyk-master\chinczyk-master\source\main.cpp(164): error C2065: 'hBitmapBlue': undeclared identifier
+c:\users\admin\desktop\chinczyk-master\chinczyk-master\source\main.cpp(172): error C2065: 'hBitmapGreen': undeclared identifier
+c:\users\admin\desktop\chinczyk-master\chinczyk-master\source\main.cpp(180): error C2065: 'hBitmapDog': undeclared identifier
+c:\users\admin\desktop\chinczyk-master\chinczyk-master\source\main.cpp(188): error C2065: 'hBitmapDog': undeclared identifier
+c:\users\admin\desktop\chinczyk-master\chinczyk-master\source\main.cpp(196): error C2065: 'hBitmapDog2': undeclared identifier
+c:\users\admin\desktop\chinczyk-master\chinczyk-master\source\main.cpp(204): error C2065: 'hBitmapDog2': undeclared identifier
+c:\users\admin\desktop\chinczyk-master\chinczyk-master\source\main.cpp(404): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+c:\users\admin\desktop\chinczyk-master\chinczyk-master\source\main.cpp(843): error C2065: 'hBitmapGameBoard': undeclared identifier
+c:\users\admin\desktop\chinczyk-master\chinczyk-master\source\main.cpp(844): error C2065: 'hBitmapYellow': undeclared identifier
+c:\users\admin\desktop\chinczyk-master\chinczyk-master\source\main.cpp(845): error C2065: 'hBitmapRed': undeclared identifier
+c:\users\admin\desktop\chinczyk-master\chinczyk-master\source\main.cpp(846): error C2065: 'hBitmapBlue': undeclared identifier
+c:\users\admin\desktop\chinczyk-master\chinczyk-master\source\main.cpp(847): error C2065: 'hBitmapGreen': undeclared identifier
+c:\users\admin\desktop\chinczyk-master\chinczyk-master\source\main.cpp(854): error C2065: 'hBitmapDog': undeclared identifier
+c:\users\admin\desktop\chinczyk-master\chinczyk-master\source\main.cpp(855): error C2065: 'hBitmapDog2': undeclared identifier
+c:\users\admin\desktop\chinczyk-master\chinczyk-master\source\main.cpp(1300): error C2065: 'hBitmapGameBoard': undeclared identifier
+c:\users\admin\desktop\chinczyk-master\chinczyk-master\source\main.cpp(1312): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
