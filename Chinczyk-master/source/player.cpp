@@ -1,30 +1,16 @@
 #include "Player.h"
+#include "Pole.h"
 
-Player::Player()
+Player::Player(kolor x)
 {
-  kolor aktualny = yellow;
-  grajace_kolory.push_back(yellow);
-  grajace_kolory.push_back(red);
-  grajace_kolory.push_back(blue);
-  grajace_kolory.push_back(green);
+    Pionek* pierwszy = new Pionek(x);
+    Pionek* drugi = new Pionek(x);
+    Pionek* trzeci = new Pionek(x);
+    Pionek* czwarty = new Pionek(x);
+
+    pionki.push_back(pierwszy);
+    pionki.push_back(drugi);
+    pionki.push_back(trzeci);
+    pionki.push_back(czwarty);
 };
 
-void Player::next()
-{
-  for (int i = 0; i < grajace_kolory.size(); i++)
-  {
-    if (i < grajace_kolory.size() - 1)
-    {
-      if (aktualny == grajace_kolory[i])
-      {
-        aktualny = grajace_kolory[i + 1];
-        break;
-      }
-    }
-    else
-    {
-      aktualny = grajace_kolory[0];
-      break;
-    }
-  }
-};

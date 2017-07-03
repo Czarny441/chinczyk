@@ -88,6 +88,9 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
+    <Link>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -119,7 +122,9 @@
     <ClCompile Include="..\source\board.cpp" />
     <ClCompile Include="..\source\cube.cpp" />
     <ClCompile Include="..\source\main.cpp" />
+    <ClCompile Include="..\source\Pionek.cpp" />
     <ClCompile Include="..\source\player.cpp" />
+    <ClCompile Include="..\source\Pole.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\source\res.rc" />
@@ -127,7 +132,9 @@
   <ItemGroup>
     <ClInclude Include="..\source\board.h" />
     <ClInclude Include="..\source\cube.h" />
+    <ClInclude Include="..\source\Pionek.h" />
     <ClInclude Include="..\source\Player.h" />
+    <ClInclude Include="..\source\Pole.h" />
     <ClInclude Include="..\source\res.h" />
   </ItemGroup>
   <ItemGroup>
@@ -146,9 +153,15 @@
     <Image Include="..\res\pies_pasterski.bmp" />
     <Image Include="..\res\pies_pasterski2.bmp" />
     <Image Include="..\res\plansza_800x804.bmp" />
+    <Image Include="..\res\wood.bmp" />
     <Image Include="..\res\zielony.bmp" />
     <Image Include="..\res\zolty.bmp" />
     <Image Include="..\source\icon1.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="..\res\Dice.wav" />
+    <Media Include="..\res\rumble.wav" />
+    <Media Include="..\res\Sheep.wav" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -9,6 +9,7 @@ void Board::init_dialog(HINSTANCE hInst)
   hBitmapGreen = LoadBitmap(hInst, MAKEINTRESOURCE(IDB_BITMAP_ZIELONY));
   hBitmapDog = LoadBitmap(hInst, MAKEINTRESOURCE(IDB_BITMAP_PIES));
   hBitmapDog2 = LoadBitmap(hInst, MAKEINTRESOURCE(IDB_BITMAP_PIES2));
+  hBitmapWood = LoadBitmap(hInst, MAKEINTRESOURCE(IDB_BITMAP_WOOD));
 }
 void Board::drawBoard(HDC hdc) 
 {
@@ -82,7 +83,15 @@ void Board::DrawDog4(HDC hdc)
   BitBlt(hdc, 460, 450, 100, 96, hDCBitmap, 0, 0, SRCCOPY);
   DeleteDC(hDCBitmap);
 }
+void Board::DrawWood(HDC hdc)
+{
+  HDC hDCBitmap;
+  hDCBitmap = CreateCompatibleDC(hdc);
+  SelectObject(hDCBitmap, hBitmapWood);
+  BitBlt(hdc, 700, 0, 905, 703, hDCBitmap, 0, 0, SRCCOPY);
+  DeleteDC(hDCBitmap);
+}
 void Board::close() 
 {
-  for (int i = 0; i < 11; i++) { DeleteObject(hBitmapGameBoard + i); }
+  for (int i = 0; i < 12; i++) { DeleteObject(hBitmapGameBoard + i); }
 }

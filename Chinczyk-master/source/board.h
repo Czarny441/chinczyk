@@ -13,10 +13,11 @@ public:
   void drawRed(HDC hdc, int x, int y);
   void drawBlue(HDC hdc, int x, int y);
   void drawGreen(HDC hdc, int x, int y);
-  void Board::DrawDog(HDC hdc);
-  void Board::DrawDog2(HDC hdc);
+  void DrawDog(HDC hdc);
+  void DrawDog2(HDC hdc);
   void DrawDog3(HDC hdc);
   void DrawDog4(HDC hdc);
+  void DrawWood(HDC hdc);
   void close();
 private:
   HBITMAP hBitmapGameBoard;
@@ -26,5 +27,6 @@ private:
   HBITMAP hBitmapGreen;
   HBITMAP hBitmapDog;
   HBITMAP hBitmapDog2;
+  HBITMAP hBitmapWood;
 };
 #endif // !PROJEKT_1_BOARD_H

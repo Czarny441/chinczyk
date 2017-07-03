@@ -27,6 +27,12 @@
     <ClCompile Include="..\source\cube.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\source\Pole.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\source\Pionek.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\source\res.rc">
@@ -44,6 +50,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\source\cube.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Pionek.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\source\Pole.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -102,5 +114,19 @@
     <Image Include="..\res\pies_pasterski.bmp">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="..\res\wood.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="..\res\Sheep.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="..\res\Dice.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="..\res\rumble.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
   </ItemGroup>
 </Project>

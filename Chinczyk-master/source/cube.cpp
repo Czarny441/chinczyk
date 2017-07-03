@@ -13,6 +13,7 @@ int Cube::kostka(HWND hwndDlg)
 {
   HDC hdc = GetDC(hwndDlg);
   value = rand() % 6 + 1;
+  //value = rand() % 2 + 5;
   switch (value)
   {
   case 1:
