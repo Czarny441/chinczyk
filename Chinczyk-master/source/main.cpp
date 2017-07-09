@@ -488,6 +488,27 @@ bool wystaw_czerwonego(HWND hwnDlg, HDC hdc)
     && akt_pozycja_red3[0] != 10 && akt_pozycja_red3[1] != 258
     && akt_pozycja_red4[0] != 10 && akt_pozycja_red4[1] != 258 && !red1_w_domku)
   {
+    if (Plansza[0]->pionek != nullptr)
+    {
+      switch (Plansza[0]->pionek->colour)
+      {
+      case blue:
+        niebieski->pionki[0]->rusz_pionka(SchowekBlue[0], akt_pozycja_blue1);
+        blue1_wystawiony = false;
+        poczatkowy_ruch_blue1 = 0;
+        break;
+      case yellow:
+        zolty->pionki[0]->rusz_pionka(SchowekYellow[0], akt_pozycja_yellow1);
+        yellow1_wystawiony = false;
+        poczatkowy_ruch_yellow1 = 0;
+        break;
+      case green:
+        zielony->pionki[0]->rusz_pionka(SchowekGreen[0], akt_pozycja_green1);
+        green1_wystawiony = false;
+        poczatkowy_ruch_green1 = 0;
+        break;
+      }
+    }
     czerwony->pionki[0]->rusz_pionka(Plansza[0], akt_pozycja_red1);
     Plansza[0]->pionek = czerwony->pionki[0];
     board.drawRed(hdc, akt_pozycja_red1[0], akt_pozycja_red1[1]);
@@ -499,6 +520,27 @@ bool wystaw_czerwonego(HWND hwnDlg, HDC hdc)
     && akt_pozycja_red3[0] != 10 && akt_pozycja_red3[1] != 258
     && akt_pozycja_red4[0] != 10 && akt_pozycja_red4[1] != 258)
   {
+    if (Plansza[0]->pionek != nullptr)
+    {
+      switch (Plansza[0]->pionek->colour)
+      {
+      case blue:
+        niebieski->pionki[0]->rusz_pionka(SchowekBlue[0], akt_pozycja_blue1);
+        blue1_wystawiony = false;
+        poczatkowy_ruch_blue1 = 0;
+        break;
+      case yellow:
+        zolty->pionki[0]->rusz_pionka(SchowekYellow[0], akt_pozycja_yellow1);
+        yellow1_wystawiony = false;
+        poczatkowy_ruch_yellow1 = 0;
+        break;
+      case green:
+        zielony->pionki[0]->rusz_pionka(SchowekGreen[0], akt_pozycja_green1);
+        green1_wystawiony = false;
+        poczatkowy_ruch_green1 = 0;
+        break;
+      }
+    }
     czerwony->pionki[1]->rusz_pionka(Plansza[0], akt_pozycja_red2);
     Plansza[0]->pionek = czerwony->pionki[1];
     board.drawRed(hdc, akt_pozycja_red2[0], akt_pozycja_red2[1]);
@@ -510,6 +552,27 @@ bool wystaw_czerwonego(HWND hwnDlg, HDC hdc)
     && akt_pozycja_red1[0] != 10 && akt_pozycja_red1[1] != 258
     && akt_pozycja_red4[0] != 10 && akt_pozycja_red4[1] != 258)
   {
+    if (Plansza[0]->pionek != nullptr)
+    {
+      switch (Plansza[0]->pionek->colour)
+      {
+      case blue:
+        niebieski->pionki[0]->rusz_pionka(SchowekBlue[0], akt_pozycja_blue1);
+        blue1_wystawiony = false;
+        poczatkowy_ruch_blue1 = 0;
+        break;
+      case yellow:
+        zolty->pionki[0]->rusz_pionka(SchowekYellow[0], akt_pozycja_yellow1);
+        yellow1_wystawiony = false;
+        poczatkowy_ruch_yellow1 = 0;
+        break;
+      case green:
+        zielony->pionki[0]->rusz_pionka(SchowekGreen[0], akt_pozycja_green1);
+        green1_wystawiony = false;
+        poczatkowy_ruch_green1 = 0;
+        break;
+      }
+    }
     czerwony->pionki[2]->rusz_pionka(Plansza[0], akt_pozycja_red3);
     Plansza[0]->pionek = czerwony->pionki[2];
     board.drawRed(hdc, akt_pozycja_red3[0], akt_pozycja_red3[1]);
@@ -521,6 +584,27 @@ bool wystaw_czerwonego(HWND hwnDlg, HDC hdc)
     && akt_pozycja_red3[0] != 10 && akt_pozycja_red3[1] != 258
     && akt_pozycja_red1[0] != 10 && akt_pozycja_red1[1] != 258)
   {
+    if (Plansza[0]->pionek != nullptr)
+    {
+      switch (Plansza[0]->pionek->colour)
+      {
+      case blue:
+        niebieski->pionki[0]->rusz_pionka(SchowekBlue[0], akt_pozycja_blue1);
+        blue1_wystawiony = false;
+        poczatkowy_ruch_blue1 = 0;
+        break;
+      case yellow:
+        zolty->pionki[0]->rusz_pionka(SchowekYellow[0], akt_pozycja_yellow1);
+        yellow1_wystawiony = false;
+        poczatkowy_ruch_yellow1 = 0;
+        break;
+      case green:
+        zielony->pionki[0]->rusz_pionka(SchowekGreen[0], akt_pozycja_green1);
+        green1_wystawiony = false;
+        poczatkowy_ruch_green1 = 0;
+        break;
+      }
+    }
     czerwony->pionki[3]->rusz_pionka(Plansza[0], akt_pozycja_red4);
     Plansza[0]->pionek = czerwony->pionki[3];
     board.drawRed(hdc, akt_pozycja_red4[0], akt_pozycja_red4[1]);
@@ -537,6 +621,27 @@ bool wystaw_niebieskiego(HWND hwnDlg, HDC hdc)
     && akt_pozycja_blue3[0] != 375 && akt_pozycja_blue3[1] != 15
     && akt_pozycja_blue4[0] != 375 && akt_pozycja_blue4[1] != 15)
   {
+    if (Plansza[10]->pionek != nullptr)
+    {
+      switch (Plansza[10]->pionek->colour)
+      {
+      case red:
+        czerwony->pionki[0]->rusz_pionka(SchowekRed[0], akt_pozycja_red1);
+        red1_wystawiony = false;
+        poczatkowy_ruch_red1 = 0;
+        break;
+      case yellow:
+        zolty->pionki[0]->rusz_pionka(SchowekYellow[0], akt_pozycja_yellow1);
+        yellow1_wystawiony = false;
+        poczatkowy_ruch_yellow1 = 0;
+        break;
+      case green:
+        zielony->pionki[0]->rusz_pionka(SchowekGreen[0], akt_pozycja_green1);
+        green1_wystawiony = false;
+        poczatkowy_ruch_green1 = 0;
+        break;
+      }
+    }
     niebieski->pionki[0]->rusz_pionka(Plansza[10], akt_pozycja_blue1);
     Plansza[10]->pionek = niebieski->pionki[0];
     board.drawBlue(hdc, akt_pozycja_blue1[0], akt_pozycja_blue1[1]);
@@ -548,6 +653,27 @@ bool wystaw_niebieskiego(HWND hwnDlg, HDC hdc)
     && akt_pozycja_blue3[0] != 375 && akt_pozycja_blue3[1] != 15
     && akt_pozycja_blue4[0] != 375 && akt_pozycja_blue4[1] != 15)
   {
+    if (Plansza[10]->pionek != nullptr)
+    {
+      switch (Plansza[10]->pionek->colour)
+      {
+      case red:
+        czerwony->pionki[0]->rusz_pionka(SchowekRed[0], akt_pozycja_red1);
+        red1_wystawiony = false;
+        poczatkowy_ruch_red1 = 0;
+        break;
+      case yellow:
+        zolty->pionki[0]->rusz_pionka(SchowekYellow[0], akt_pozycja_yellow1);
+        yellow1_wystawiony = false;
+        poczatkowy_ruch_yellow1 = 0;
+        break;
+      case green:
+        zielony->pionki[0]->rusz_pionka(SchowekGreen[0], akt_pozycja_green1);
+        green1_wystawiony = false;
+        poczatkowy_ruch_green1 = 0;
+        break;
+      }
+    }
     niebieski->pionki[1]->rusz_pionka(Plansza[10], akt_pozycja_blue2);
     Plansza[10]->pionek = niebieski->pionki[1];
     board.drawBlue(hdc, akt_pozycja_blue2[0], akt_pozycja_blue2[1]);
@@ -559,6 +685,27 @@ bool wystaw_niebieskiego(HWND hwnDlg, HDC hdc)
     && akt_pozycja_blue1[0] != 375 && akt_pozycja_blue1[1] != 15
     && akt_pozycja_blue4[0] != 375 && akt_pozycja_blue4[1] != 15)
   {
+    if (Plansza[10]->pionek != nullptr)
+    {
+      switch (Plansza[10]->pionek->colour)
+      {
+      case red:
+        czerwony->pionki[0]->rusz_pionka(SchowekRed[0], akt_pozycja_red1);
+        red1_wystawiony = false;
+        poczatkowy_ruch_red1 = 0;
+        break;
+      case yellow:
+        zolty->pionki[0]->rusz_pionka(SchowekYellow[0], akt_pozycja_yellow1);
+        yellow1_wystawiony = false;
+        poczatkowy_ruch_yellow1 = 0;
+        break;
+      case green:
+        zielony->pionki[0]->rusz_pionka(SchowekGreen[0], akt_pozycja_green1);
+        green1_wystawiony = false;
+        poczatkowy_ruch_green1 = 0;
+        break;
+      }
+    }
     niebieski->pionki[2]->rusz_pionka(Plansza[10], akt_pozycja_blue3);
     Plansza[10]->pionek = niebieski->pionki[2];
     board.drawBlue(hdc, akt_pozycja_blue3[0], akt_pozycja_blue3[1]);
@@ -570,6 +717,27 @@ bool wystaw_niebieskiego(HWND hwnDlg, HDC hdc)
     && akt_pozycja_blue3[0] != 375 && akt_pozycja_blue3[1] != 15
     && akt_pozycja_blue1[0] != 375 && akt_pozycja_blue1[1] != 15)
   {
+    if (Plansza[10]->pionek != nullptr)
+    {
+      switch (Plansza[10]->pionek->colour)
+      {
+      case red:
+        czerwony->pionki[0]->rusz_pionka(SchowekRed[0], akt_pozycja_red1);
+        red1_wystawiony = false;
+        poczatkowy_ruch_red1 = 0;
+        break;
+      case yellow:
+        zolty->pionki[0]->rusz_pionka(SchowekYellow[0], akt_pozycja_yellow1);
+        yellow1_wystawiony = false;
+        poczatkowy_ruch_yellow1 = 0;
+        break;
+      case green:
+        zielony->pionki[0]->rusz_pionka(SchowekGreen[0], akt_pozycja_green1);
+        green1_wystawiony = false;
+        poczatkowy_ruch_green1 = 0;
+        break;
+      }
+    }
     niebieski->pionki[3]->rusz_pionka(Plansza[10], akt_pozycja_blue4);
     Plansza[10]->pionek = niebieski->pionki[3];
     board.drawBlue(hdc, akt_pozycja_blue4[0], akt_pozycja_blue4[1]);
@@ -586,6 +754,27 @@ bool wystaw_zielonego(HWND hwnDlg, HDC hdc)
     && akt_pozycja_green3[0] != 615 && akt_pozycja_green3[1] != 378
     && akt_pozycja_green4[0] != 615 && akt_pozycja_green4[1] != 378)
   {
+    if (Plansza[20]->pionek != nullptr)
+    {
+      switch (Plansza[20]->pionek->colour)
+      {
+      case red:
+        czerwony->pionki[0]->rusz_pionka(SchowekRed[0], akt_pozycja_red1);
+        red1_wystawiony = false;
+        poczatkowy_ruch_red1 = 0;
+        break;
+      case yellow:
+        zolty->pionki[0]->rusz_pionka(SchowekYellow[0], akt_pozycja_yellow1);
+        yellow1_wystawiony = false;
+        poczatkowy_ruch_yellow1 = 0;
+        break;
+      case blue:
+        niebieski->pionki[0]->rusz_pionka(SchowekBlue[0], akt_pozycja_blue1);
+        blue1_wystawiony = false;
+        poczatkowy_ruch_blue1 = 0;
+        break;
+      }
+    }
     zielony->pionki[0]->rusz_pionka(Plansza[20], akt_pozycja_green1);
     Plansza[20]->pionek = zielony->pionki[0];
     board.drawGreen(hdc, akt_pozycja_green1[0], akt_pozycja_green1[1]);
@@ -597,6 +786,27 @@ bool wystaw_zielonego(HWND hwnDlg, HDC hdc)
     && akt_pozycja_green3[0] != 615 && akt_pozycja_green3[1] != 378
     && akt_pozycja_green4[0] != 615 && akt_pozycja_green4[1] != 378)
   {
+    if (Plansza[20]->pionek != nullptr)
+    {
+      switch (Plansza[20]->pionek->colour)
+      {
+      case red:
+        czerwony->pionki[0]->rusz_pionka(SchowekRed[0], akt_pozycja_red1);
+        red1_wystawiony = false;
+        poczatkowy_ruch_red1 = 0;
+        break;
+      case yellow:
+        zolty->pionki[0]->rusz_pionka(SchowekYellow[0], akt_pozycja_yellow1);
+        yellow1_wystawiony = false;
+        poczatkowy_ruch_yellow1 = 0;
+        break;
+      case blue:
+        niebieski->pionki[0]->rusz_pionka(SchowekBlue[0], akt_pozycja_blue1);
+        blue1_wystawiony = false;
+        poczatkowy_ruch_blue1 = 0;
+        break;
+      }
+    }
     zielony->pionki[1]->rusz_pionka(Plansza[20], akt_pozycja_green2);
     Plansza[20]->pionek = zielony->pionki[1];
     board.drawGreen(hdc, akt_pozycja_green2[0], akt_pozycja_green2[1]);
@@ -608,6 +818,27 @@ bool wystaw_zielonego(HWND hwnDlg, HDC hdc)
     && akt_pozycja_green2[0] != 615 && akt_pozycja_green2[1] != 378
     && akt_pozycja_green4[0] != 615 && akt_pozycja_green4[1] != 378)
   {
+    if (Plansza[20]->pionek != nullptr)
+    {
+      switch (Plansza[20]->pionek->colour)
+      {
+      case red:
+        czerwony->pionki[0]->rusz_pionka(SchowekRed[0], akt_pozycja_red1);
+        red1_wystawiony = false;
+        poczatkowy_ruch_red1 = 0;
+        break;
+      case yellow:
+        zolty->pionki[0]->rusz_pionka(SchowekYellow[0], akt_pozycja_yellow1);
+        yellow1_wystawiony = false;
+        poczatkowy_ruch_yellow1 = 0;
+        break;
+      case blue:
+        niebieski->pionki[0]->rusz_pionka(SchowekBlue[0], akt_pozycja_blue1);
+        blue1_wystawiony = false;
+        poczatkowy_ruch_blue1 = 0;
+        break;
+      }
+    }
     zielony->pionki[2]->rusz_pionka(Plansza[20], akt_pozycja_green3);
     Plansza[20]->pionek = zielony->pionki[2];
     board.drawGreen(hdc, akt_pozycja_green3[0], akt_pozycja_green3[1]);
@@ -619,6 +850,27 @@ bool wystaw_zielonego(HWND hwnDlg, HDC hdc)
     && akt_pozycja_green2[0] != 615 && akt_pozycja_green2[1] != 378
     && akt_pozycja_green3[0] != 615 && akt_pozycja_green3[1] != 378)
   {
+    if (Plansza[20]->pionek != nullptr)
+    {
+      switch (Plansza[20]->pionek->colour)
+      {
+      case red:
+        czerwony->pionki[0]->rusz_pionka(SchowekRed[0], akt_pozycja_red1);
+        red1_wystawiony = false;
+        poczatkowy_ruch_red1 = 0;
+        break;
+      case yellow:
+        zolty->pionki[0]->rusz_pionka(SchowekYellow[0], akt_pozycja_yellow1);
+        yellow1_wystawiony = false;
+        poczatkowy_ruch_yellow1 = 0;
+        break;
+      case blue:
+        niebieski->pionki[0]->rusz_pionka(SchowekBlue[0], akt_pozycja_blue1);
+        blue1_wystawiony = false;
+        poczatkowy_ruch_blue1 = 0;
+        break;
+      }
+    }
     zielony->pionki[3]->rusz_pionka(Plansza[20], akt_pozycja_green4);
     Plansza[20]->pionek = zielony->pionki[3];
     board.drawGreen(hdc, akt_pozycja_green4[0], akt_pozycja_green4[1]);
@@ -635,6 +887,27 @@ bool wystaw_zoltego(HWND hwnDlg, HDC hdc)
     && akt_pozycja_yellow3[0] != 250 && akt_pozycja_yellow3[1] != 618
     && akt_pozycja_yellow4[0] != 250 && akt_pozycja_yellow4[1] != 618)
   {
+    if (Plansza[30]->pionek != nullptr)
+    {
+      switch (Plansza[30]->pionek->colour)
+      {
+      case red:
+        czerwony->pionki[0]->rusz_pionka(SchowekRed[0], akt_pozycja_red1);
+        red1_wystawiony = false;
+        poczatkowy_ruch_red1 = 0;
+        break;
+      case green:
+        zielony->pionki[0]->rusz_pionka(SchowekGreen[0], akt_pozycja_green1);
+        green1_wystawiony = false;
+        poczatkowy_ruch_green1 = 0;
+        break;
+      case blue:
+        niebieski->pionki[0]->rusz_pionka(SchowekBlue[0], akt_pozycja_blue1);
+        blue1_wystawiony = false;
+        poczatkowy_ruch_blue1 = 0;
+        break;
+      }
+    }
     zolty->pionki[0]->rusz_pionka(Plansza[30], akt_pozycja_yellow1);
     Plansza[30]->pionek = zolty->pionki[0];
     board.drawYellow(hdc, akt_pozycja_yellow1[0], akt_pozycja_yellow1[1]);
@@ -646,6 +919,27 @@ bool wystaw_zoltego(HWND hwnDlg, HDC hdc)
     && akt_pozycja_yellow3[0] != 250 && akt_pozycja_yellow3[1] != 618
     && akt_pozycja_yellow4[0] != 250 && akt_pozycja_yellow4[1] != 618)
   {
+    if (Plansza[30]->pionek != nullptr)
+    {
+      switch (Plansza[30]->pionek->colour)
+      {
+      case red:
+        czerwony->pionki[0]->rusz_pionka(SchowekRed[0], akt_pozycja_red1);
+        red1_wystawiony = false;
+        poczatkowy_ruch_red1 = 0;
+        break;
+      case green:
+        zielony->pionki[0]->rusz_pionka(SchowekGreen[0], akt_pozycja_green1);
+        green1_wystawiony = false;
+        poczatkowy_ruch_green1 = 0;
+        break;
+      case blue:
+        niebieski->pionki[0]->rusz_pionka(SchowekBlue[0], akt_pozycja_blue1);
+        blue1_wystawiony = false;
+        poczatkowy_ruch_blue1 = 0;
+        break;
+      }
+    }
     zolty->pionki[1]->rusz_pionka(Plansza[30], akt_pozycja_yellow2);
     Plansza[30]->pionek = zolty->pionki[1];
     board.drawYellow(hdc, akt_pozycja_yellow2[0], akt_pozycja_yellow2[1]);
@@ -657,6 +951,27 @@ bool wystaw_zoltego(HWND hwnDlg, HDC hdc)
     && akt_pozycja_yellow1[0] != 250 && akt_pozycja_yellow1[1] != 618
     && akt_pozycja_yellow4[0] != 250 && akt_pozycja_yellow4[1] != 618)
   {
+    if (Plansza[30]->pionek != nullptr)
+    {
+      switch (Plansza[30]->pionek->colour)
+      {
+      case red:
+        czerwony->pionki[0]->rusz_pionka(SchowekRed[0], akt_pozycja_red1);
+        red1_wystawiony = false;
+        poczatkowy_ruch_red1 = 0;
+        break;
+      case green:
+        zielony->pionki[0]->rusz_pionka(SchowekGreen[0], akt_pozycja_green1);
+        green1_wystawiony = false;
+        poczatkowy_ruch_green1 = 0;
+        break;
+      case blue:
+        niebieski->pionki[0]->rusz_pionka(SchowekBlue[0], akt_pozycja_blue1);
+        blue1_wystawiony = false;
+        poczatkowy_ruch_blue1 = 0;
+        break;
+      }
+    }
     zolty->pionki[2]->rusz_pionka(Plansza[30], akt_pozycja_yellow3);
     Plansza[30]->pionek = zolty->pionki[2];
     board.drawYellow(hdc, akt_pozycja_yellow3[0], akt_pozycja_yellow3[1]);
@@ -668,6 +983,27 @@ bool wystaw_zoltego(HWND hwnDlg, HDC hdc)
     && akt_pozycja_yellow3[0] != 250 && akt_pozycja_yellow3[1] != 618
     && akt_pozycja_yellow1[0] != 250 && akt_pozycja_yellow1[1] != 618)
   {
+    if (Plansza[30]->pionek != nullptr)
+    {
+      switch (Plansza[30]->pionek->colour)
+      {
+      case red:
+        czerwony->pionki[0]->rusz_pionka(SchowekRed[0], akt_pozycja_red1);
+        red1_wystawiony = false;
+        poczatkowy_ruch_red1 = 0;
+        break;
+      case green:
+        zielony->pionki[0]->rusz_pionka(SchowekGreen[0], akt_pozycja_green1);
+        green1_wystawiony = false;
+        poczatkowy_ruch_green1 = 0;
+        break;
+      case blue:
+        niebieski->pionki[0]->rusz_pionka(SchowekBlue[0], akt_pozycja_blue1);
+        blue1_wystawiony = false;
+        poczatkowy_ruch_blue1 = 0;
+        break;
+      }
+    }
     zolty->pionki[3]->rusz_pionka(Plansza[30], akt_pozycja_yellow4);
     Plansza[30]->pionek = zolty->pionki[3];
     board.drawYellow(hdc, akt_pozycja_yellow4[0], akt_pozycja_yellow4[1]);
@@ -687,6 +1023,27 @@ void wystaw_pionka(HWND hwnDlg, HDC hdc)
                            && akt_pozycja_yellow3[0] != 250 && akt_pozycja_yellow3[1] != 618
                            && akt_pozycja_yellow4[0] != 250 && akt_pozycja_yellow4[1] != 618)
     {
+      if (Plansza[30]->pionek != nullptr)
+      {
+        switch (Plansza[30]->pionek->colour)
+        {
+        case red:
+          czerwony->pionki[0]->rusz_pionka(SchowekRed[0], akt_pozycja_red1);
+          red1_wystawiony = false;
+          poczatkowy_ruch_red1 = 0;
+          break;
+        case green:
+          zielony->pionki[0]->rusz_pionka(SchowekGreen[0], akt_pozycja_green1);
+          green1_wystawiony = false;
+          poczatkowy_ruch_green1 = 0;
+          break;
+        case blue:
+          niebieski->pionki[0]->rusz_pionka(SchowekBlue[0], akt_pozycja_blue1);
+          blue1_wystawiony = false;
+          poczatkowy_ruch_blue1 = 0;
+          break;
+        }
+      }
       zolty->pionki[0]->rusz_pionka(Plansza[30], akt_pozycja_yellow1);
       Plansza[30]->pionek = zolty->pionki[0];
       board.drawYellow(hdc, akt_pozycja_yellow1[0], akt_pozycja_yellow1[1]);
@@ -698,6 +1055,27 @@ void wystaw_pionka(HWND hwnDlg, HDC hdc)
                             && akt_pozycja_yellow3[0] != 250 && akt_pozycja_yellow3[1] != 618
                             && akt_pozycja_yellow4[0] != 250 && akt_pozycja_yellow4[1] != 618)
     {
+      if (Plansza[30]->pionek != nullptr)
+      {
+        switch (Plansza[30]->pionek->colour)
+        {
+        case red:
+          czerwony->pionki[0]->rusz_pionka(SchowekRed[0], akt_pozycja_red1);
+          red1_wystawiony = false;
+          poczatkowy_ruch_red1 = 0;
+          break;
+        case green:
+          zielony->pionki[0]->rusz_pionka(SchowekGreen[0], akt_pozycja_green1);
+          green1_wystawiony = false;
+          poczatkowy_ruch_green1 = 0;
+          break;
+        case blue:
+          niebieski->pionki[0]->rusz_pionka(SchowekBlue[0], akt_pozycja_blue1);
+          blue1_wystawiony = false;
+          poczatkowy_ruch_blue1 = 0;
+          break;
+        }
+      }
       zolty->pionki[1]->rusz_pionka(Plansza[30], akt_pozycja_yellow2);
       Plansza[30]->pionek = zolty->pionki[0];
       board.drawYellow(hdc, akt_pozycja_yellow2[0], akt_pozycja_yellow2[1]);
@@ -709,6 +1087,27 @@ void wystaw_pionka(HWND hwnDlg, HDC hdc)
                             && akt_pozycja_yellow1[0] != 250 && akt_pozycja_yellow1[1] != 618
                             && akt_pozycja_yellow4[0] != 250 && akt_pozycja_yellow4[1] != 618)
     {
+      if (Plansza[30]->pionek != nullptr)
+      {
+        switch (Plansza[30]->pionek->colour)
+        {
+        case red:
+          czerwony->pionki[0]->rusz_pionka(SchowekRed[0], akt_pozycja_red1);
+          red1_wystawiony = false;
+          poczatkowy_ruch_red1 = 0;
+          break;
+        case green:
+          zielony->pionki[0]->rusz_pionka(SchowekGreen[0], akt_pozycja_green1);
+          green1_wystawiony = false;
+          poczatkowy_ruch_green1 = 0;
+          break;
+        case blue:
+          niebieski->pionki[0]->rusz_pionka(SchowekBlue[0], akt_pozycja_blue1);
+          blue1_wystawiony = false;
+          poczatkowy_ruch_blue1 = 0;
+          break;
+        }
+      }
       zolty->pionki[2]->rusz_pionka(Plansza[30], akt_pozycja_yellow3);
       Plansza[30]->pionek = zolty->pionki[0];
       board.drawYellow(hdc, akt_pozycja_yellow3[0], akt_pozycja_yellow3[1]);
@@ -720,6 +1119,27 @@ void wystaw_pionka(HWND hwnDlg, HDC hdc)
                             && akt_pozycja_yellow3[0] != 250 && akt_pozycja_yellow3[1] != 618
                             && akt_pozycja_yellow1[0] != 250 && akt_pozycja_yellow1[1] != 618)
     {
+      if (Plansza[30]->pionek != nullptr)
+      {
+        switch (Plansza[30]->pionek->colour)
+        {
+        case red:
+          czerwony->pionki[0]->rusz_pionka(SchowekRed[0], akt_pozycja_red1);
+          red1_wystawiony = false;
+          poczatkowy_ruch_red1 = 0;
+          break;
+        case green:
+          zielony->pionki[0]->rusz_pionka(SchowekGreen[0], akt_pozycja_green1);
+          green1_wystawiony = false;
+          poczatkowy_ruch_green1 = 0;
+          break;
+        case blue:
+          niebieski->pionki[0]->rusz_pionka(SchowekBlue[0], akt_pozycja_blue1);
+          blue1_wystawiony = false;
+          poczatkowy_ruch_blue1 = 0;
+          break;
+        }
+      }
       zolty->pionki[3]->rusz_pionka(Plansza[30], akt_pozycja_yellow4);
       Plansza[30]->pionek = zolty->pionki[0];
       board.drawYellow(hdc, akt_pozycja_yellow4[0], akt_pozycja_yellow4[1]);
@@ -733,6 +1153,27 @@ void wystaw_pionka(HWND hwnDlg, HDC hdc)
                          && akt_pozycja_red3[0] != 10 && akt_pozycja_red3[1] != 258
                          && akt_pozycja_red4[0] != 10 && akt_pozycja_red4[1] != 258 && !red1_w_domku)
     {
+      if (Plansza[0]->pionek != nullptr)
+      {
+        switch (Plansza[0]->pionek->colour)
+        {
+        case blue:
+          niebieski->pionki[0]->rusz_pionka(SchowekBlue[0], akt_pozycja_blue1);
+          blue1_wystawiony = false;
+          poczatkowy_ruch_blue1 = 0;
+          break;
+        case yellow:
+          zolty->pionki[0]->rusz_pionka(SchowekYellow[0], akt_pozycja_yellow1);
+          yellow1_wystawiony = false;
+          poczatkowy_ruch_yellow1 = 0;
+          break;
+        case green:
+          zielony->pionki[0]->rusz_pionka(SchowekGreen[0], akt_pozycja_green1);
+          green1_wystawiony = false;
+          poczatkowy_ruch_green1 = 0;
+          break;
+        }
+      }
       czerwony->pionki[0]->rusz_pionka(Plansza[0], akt_pozycja_red1);
       Plansza[0]->pionek = czerwony->pionki[0];
       board.drawRed(hdc, akt_pozycja_red1[0], akt_pozycja_red1[1]);
@@ -744,6 +1185,27 @@ void wystaw_pionka(HWND hwnDlg, HDC hdc)
                           && akt_pozycja_red3[0] != 10 && akt_pozycja_red3[1] != 258
                           && akt_pozycja_red4[0] != 10 && akt_pozycja_red4[1] != 258)
     {
+      if (Plansza[0]->pionek != nullptr)
+      {
+        switch (Plansza[0]->pionek->colour)
+        {
+        case blue:
+          niebieski->pionki[0]->rusz_pionka(SchowekBlue[0], akt_pozycja_blue1);
+          blue1_wystawiony = false;
+          poczatkowy_ruch_blue1 = 0;
+          break;
+        case yellow:
+          zolty->pionki[0]->rusz_pionka(SchowekYellow[0], akt_pozycja_yellow1);
+          yellow1_wystawiony = false;
+          poczatkowy_ruch_yellow1 = 0;
+          break;
+        case green:
+          zielony->pionki[0]->rusz_pionka(SchowekGreen[0], akt_pozycja_green1);
+          green1_wystawiony = false;
+          poczatkowy_ruch_green1 = 0;
+          break;
+        }
+      }
       czerwony->pionki[1]->rusz_pionka(Plansza[0], akt_pozycja_red2);
       Plansza[0]->pionek = czerwony->pionki[1];
       board.drawRed(hdc, akt_pozycja_red2[0], akt_pozycja_red2[1]);
@@ -755,6 +1217,27 @@ void wystaw_pionka(HWND hwnDlg, HDC hdc)
                           && akt_pozycja_red1[0] != 10 && akt_pozycja_red1[1] != 258
                           && akt_pozycja_red4[0] != 10 && akt_pozycja_red4[1] != 258)
     {
+      if (Plansza[0]->pionek != nullptr)
+      {
+        switch (Plansza[0]->pionek->colour)
+        {
+        case blue:
+          niebieski->pionki[0]->rusz_pionka(SchowekBlue[0], akt_pozycja_blue1);
+          blue1_wystawiony = false;
+          poczatkowy_ruch_blue1 = 0;
+          break;
+        case yellow:
+          zolty->pionki[0]->rusz_pionka(SchowekYellow[0], akt_pozycja_yellow1);
+          yellow1_wystawiony = false;
+          poczatkowy_ruch_yellow1 = 0;
+          break;
+        case green:
+          zielony->pionki[0]->rusz_pionka(SchowekGreen[0], akt_pozycja_green1);
+          green1_wystawiony = false;
+          poczatkowy_ruch_green1 = 0;
+          break;
+        }
+      }
       czerwony->pionki[2]->rusz_pionka(Plansza[0], akt_pozycja_red3);
       Plansza[0]->pionek = czerwony->pionki[2];
       board.drawRed(hdc, akt_pozycja_red3[0], akt_pozycja_red3[1]);
@@ -766,6 +1249,27 @@ void wystaw_pionka(HWND hwnDlg, HDC hdc)
                           && akt_pozycja_red3[0] != 10 && akt_pozycja_red3[1] != 258
                           && akt_pozycja_red1[0] != 10 && akt_pozycja_red1[1] != 258)
     {
+      if (Plansza[0]->pionek != nullptr)
+      {
+        switch (Plansza[0]->pionek->colour)
+        {
+        case blue:
+          niebieski->pionki[0]->rusz_pionka(SchowekBlue[0], akt_pozycja_blue1);
+          blue1_wystawiony = false;
+          poczatkowy_ruch_blue1 = 0;
+          break;
+        case yellow:
+          zolty->pionki[0]->rusz_pionka(SchowekYellow[0], akt_pozycja_yellow1);
+          yellow1_wystawiony = false;
+          poczatkowy_ruch_yellow1 = 0;
+          break;
+        case green:
+          zielony->pionki[0]->rusz_pionka(SchowekGreen[0], akt_pozycja_green1);
+          green1_wystawiony = false;
+          poczatkowy_ruch_green1 = 0;
+          break;
+        }
+      }
       czerwony->pionki[3]->rusz_pionka(Plansza[0], akt_pozycja_red4);
       Plansza[0]->pionek = czerwony->pionki[3];
       board.drawRed(hdc, akt_pozycja_red4[0], akt_pozycja_red4[1]);
@@ -779,6 +1283,27 @@ void wystaw_pionka(HWND hwnDlg, HDC hdc)
                           && akt_pozycja_blue3[0] != 375 && akt_pozycja_blue3[1] != 15
                           && akt_pozycja_blue4[0] != 375 && akt_pozycja_blue4[1] != 15)
     {
+      if (Plansza[10]->pionek != nullptr)
+      {
+        switch (Plansza[10]->pionek->colour)
+        {
+        case red:
+          czerwony->pionki[0]->rusz_pionka(SchowekRed[0], akt_pozycja_red1);
+          red1_wystawiony = false;
+          poczatkowy_ruch_red1 = 0;
+          break;
+        case yellow:
+          zolty->pionki[0]->rusz_pionka(SchowekYellow[0], akt_pozycja_yellow1);
+          yellow1_wystawiony = false;
+          poczatkowy_ruch_yellow1 = 0;
+          break;
+        case green:
+          zielony->pionki[0]->rusz_pionka(SchowekGreen[0], akt_pozycja_green1);
+          green1_wystawiony = false;
+          poczatkowy_ruch_green1 = 0;
+          break;
+        }
+      }
       niebieski->pionki[0]->rusz_pionka(Plansza[10], akt_pozycja_blue1);
       Plansza[10]->pionek = niebieski->pionki[0];
       board.drawBlue(hdc, akt_pozycja_blue1[0], akt_pozycja_blue1[1]);
@@ -790,6 +1315,27 @@ void wystaw_pionka(HWND hwnDlg, HDC hdc)
                           && akt_pozycja_blue3[0] != 375 && akt_pozycja_blue3[1] != 15
                           && akt_pozycja_blue4[0] != 375 && akt_pozycja_blue4[1] != 15)
     {
+      if (Plansza[10]->pionek != nullptr)
+      {
+        switch (Plansza[10]->pionek->colour)
+        {
+        case red:
+          czerwony->pionki[0]->rusz_pionka(SchowekRed[0], akt_pozycja_red1);
+          red1_wystawiony = false;
+          poczatkowy_ruch_red1 = 0;
+          break;
+        case yellow:
+          zolty->pionki[0]->rusz_pionka(SchowekYellow[0], akt_pozycja_yellow1);
+          yellow1_wystawiony = false;
+          poczatkowy_ruch_yellow1 = 0;
+          break;
+        case green:
+          zielony->pionki[0]->rusz_pionka(SchowekGreen[0], akt_pozycja_green1);
+          green1_wystawiony = false;
+          poczatkowy_ruch_green1 = 0;
+          break;
+        }
+      }
       niebieski->pionki[1]->rusz_pionka(Plansza[10], akt_pozycja_blue2);
       Plansza[10]->pionek = niebieski->pionki[1];
       board.drawBlue(hdc, akt_pozycja_blue2[0], akt_pozycja_blue2[1]);
@@ -801,6 +1347,27 @@ void wystaw_pionka(HWND hwnDlg, HDC hdc)
                           && akt_pozycja_blue1[0] != 375 && akt_pozycja_blue1[1] != 15
                           && akt_pozycja_blue4[0] != 375 && akt_pozycja_blue4[1] != 15)
     {
+      if (Plansza[10]->pionek != nullptr)
+      {
+        switch (Plansza[10]->pionek->colour)
+        {
+        case red:
+          czerwony->pionki[0]->rusz_pionka(SchowekRed[0], akt_pozycja_red1);
+          red1_wystawiony = false;
+          poczatkowy_ruch_red1 = 0;
+          break;
+        case yellow:
+          zolty->pionki[0]->rusz_pionka(SchowekYellow[0], akt_pozycja_yellow1);
+          yellow1_wystawiony = false;
+          poczatkowy_ruch_yellow1 = 0;
+          break;
+        case green:
+          zielony->pionki[0]->rusz_pionka(SchowekGreen[0], akt_pozycja_green1);
+          green1_wystawiony = false;
+          poczatkowy_ruch_green1 = 0;
+          break;
+        }
+      }
       niebieski->pionki[2]->rusz_pionka(Plansza[10], akt_pozycja_blue3);
       Plansza[10]->pionek = niebieski->pionki[2];
       board.drawBlue(hdc, akt_pozycja_blue3[0], akt_pozycja_blue3[1]);
@@ -812,6 +1379,27 @@ void wystaw_pionka(HWND hwnDlg, HDC hdc)
                           && akt_pozycja_blue3[0] != 375 && akt_pozycja_blue3[1] != 15
                           && akt_pozycja_blue1[0] != 375 && akt_pozycja_blue1[1] != 15)
     {
+      if (Plansza[10]->pionek != nullptr)
+      {
+        switch (Plansza[10]->pionek->colour)
+        {
+        case red:
+          czerwony->pionki[0]->rusz_pionka(SchowekRed[0], akt_pozycja_red1);
+          red1_wystawiony = false;
+          poczatkowy_ruch_red1 = 0;
+          break;
+        case yellow:
+          zolty->pionki[0]->rusz_pionka(SchowekYellow[0], akt_pozycja_yellow1);
+          yellow1_wystawiony = false;
+          poczatkowy_ruch_yellow1 = 0;
+          break;
+        case green:
+          zielony->pionki[0]->rusz_pionka(SchowekGreen[0], akt_pozycja_green1);
+          green1_wystawiony = false;
+          poczatkowy_ruch_green1 = 0;
+          break;
+        }
+      }
       niebieski->pionki[3]->rusz_pionka(Plansza[10], akt_pozycja_blue4);
       Plansza[10]->pionek = niebieski->pionki[3];
       board.drawBlue(hdc, akt_pozycja_blue4[0], akt_pozycja_blue4[1]);
@@ -825,6 +1413,27 @@ void wystaw_pionka(HWND hwnDlg, HDC hdc)
                            && akt_pozycja_green3[0] != 615 && akt_pozycja_green3[1] != 378
                            && akt_pozycja_green4[0] != 615 && akt_pozycja_green4[1] != 378)
     {
+      if (Plansza[20]->pionek != nullptr)
+      {
+        switch (Plansza[20]->pionek->colour)
+        {
+        case red:
+          czerwony->pionki[0]->rusz_pionka(SchowekRed[0], akt_pozycja_red1);
+          red1_wystawiony = false;
+          poczatkowy_ruch_red1 = 0;
+          break;
+        case yellow:
+          zolty->pionki[0]->rusz_pionka(SchowekYellow[0], akt_pozycja_yellow1);
+          yellow1_wystawiony = false;
+          poczatkowy_ruch_yellow1 = 0;
+          break;
+        case blue:
+          niebieski->pionki[0]->rusz_pionka(SchowekBlue[0], akt_pozycja_blue1);
+          blue1_wystawiony = false;
+          poczatkowy_ruch_blue1 = 0;
+          break;
+        }
+      }
       zielony->pionki[0]->rusz_pionka(Plansza[20], akt_pozycja_green1);
       Plansza[20]->pionek = zielony->pionki[0];
       board.drawGreen(hdc, akt_pozycja_green1[0], akt_pozycja_green1[1]);
@@ -836,6 +1445,27 @@ void wystaw_pionka(HWND hwnDlg, HDC hdc)
                            && akt_pozycja_green3[0] != 615 && akt_pozycja_green3[1] != 378
                            && akt_pozycja_green4[0] != 615 && akt_pozycja_green4[1] != 378)
     {
+      if (Plansza[20]->pionek != nullptr)
+      {
+        switch (Plansza[20]->pionek->colour)
+        {
+        case red:
+          czerwony->pionki[0]->rusz_pionka(SchowekRed[0], akt_pozycja_red1);
+          red1_wystawiony = false;
+          poczatkowy_ruch_red1 = 0;
+          break;
+        case yellow:
+          zolty->pionki[0]->rusz_pionka(SchowekYellow[0], akt_pozycja_yellow1);
+          yellow1_wystawiony = false;
+          poczatkowy_ruch_yellow1 = 0;
+          break;
+        case blue:
+          niebieski->pionki[0]->rusz_pionka(SchowekBlue[0], akt_pozycja_blue1);
+          blue1_wystawiony = false;
+          poczatkowy_ruch_blue1 = 0;
+          break;
+        }
+      }
       zielony->pionki[1]->rusz_pionka(Plansza[20], akt_pozycja_green2);
       Plansza[20]->pionek = zielony->pionki[1];
       board.drawGreen(hdc, akt_pozycja_green2[0], akt_pozycja_green2[1]);
@@ -847,6 +1477,27 @@ void wystaw_pionka(HWND hwnDlg, HDC hdc)
                            && akt_pozycja_green2[0] != 615 && akt_pozycja_green2[1] != 378
                            && akt_pozycja_green4[0] != 615 && akt_pozycja_green4[1] != 378)
     {
+      if (Plansza[20]->pionek != nullptr)
+      {
+        switch (Plansza[20]->pionek->colour)
+        {
+        case red:
+          czerwony->pionki[0]->rusz_pionka(SchowekRed[0], akt_pozycja_red1);
+          red1_wystawiony = false;
+          poczatkowy_ruch_red1 = 0;
+          break;
+        case yellow:
+          zolty->pionki[0]->rusz_pionka(SchowekYellow[0], akt_pozycja_yellow1);
+          yellow1_wystawiony = false;
+          poczatkowy_ruch_yellow1 = 0;
+          break;
+        case blue:
+          niebieski->pionki[0]->rusz_pionka(SchowekBlue[0], akt_pozycja_blue1);
+          blue1_wystawiony = false;
+          poczatkowy_ruch_blue1 = 0;
+          break;
+        }
+      }
       zielony->pionki[2]->rusz_pionka(Plansza[20], akt_pozycja_green3);
       Plansza[20]->pionek = zielony->pionki[2];
       board.drawGreen(hdc, akt_pozycja_green3[0], akt_pozycja_green3[1]);
@@ -858,6 +1509,27 @@ void wystaw_pionka(HWND hwnDlg, HDC hdc)
                             && akt_pozycja_green2[0] != 615 && akt_pozycja_green2[1] != 378
                             && akt_pozycja_green3[0] != 615 && akt_pozycja_green3[1] != 378)
     {
+      if (Plansza[20]->pionek != nullptr)
+      {
+        switch (Plansza[20]->pionek->colour)
+        {
+        case red:
+          czerwony->pionki[0]->rusz_pionka(SchowekRed[0], akt_pozycja_red1);
+          red1_wystawiony = false;
+          poczatkowy_ruch_red1 = 0;
+          break;
+        case yellow:
+          zolty->pionki[0]->rusz_pionka(SchowekYellow[0], akt_pozycja_yellow1);
+          yellow1_wystawiony = false;
+          poczatkowy_ruch_yellow1 = 0;
+          break;
+        case blue:
+          niebieski->pionki[0]->rusz_pionka(SchowekBlue[0], akt_pozycja_blue1);
+          blue1_wystawiony = false;
+          poczatkowy_ruch_blue1 = 0;
+          break;
+        }
+      }
       zielony->pionki[3]->rusz_pionka(Plansza[20], akt_pozycja_green4);
       Plansza[20]->pionek = zielony->pionki[3];
       board.drawGreen(hdc, akt_pozycja_green4[0], akt_pozycja_green4[1]);
@@ -1742,14 +2414,17 @@ INT_PTR CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
                 case red:
                   czerwony->pionki[0]->rusz_pionka(SchowekRed[0], akt_pozycja_red1);
                   red1_wystawiony = false;
+                  poczatkowy_ruch_red1 = 0;
                   break;
                 case yellow:
                   zolty->pionki[0]->rusz_pionka(SchowekYellow[0], akt_pozycja_yellow1);
                   yellow1_wystawiony = false;
+                  poczatkowy_ruch_yellow1 = 0;
                   break;
                 case blue:
                   niebieski->pionki[0]->rusz_pionka(SchowekBlue[0], akt_pozycja_blue1);
                   blue1_wystawiony = false;
+                  poczatkowy_ruch_blue1 = 0;
                   break;
                 }
               }
@@ -1765,19 +2440,22 @@ INT_PTR CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
 
               if (Plansza[poczatkowy_ruch_green2 + pop_pozycja_green2]->pionek != nullptr)
               {
-                switch (Plansza[poczatkowy_ruch_green2 + pop_pozycja_green2]->pionek->colour)
+                                switch (Plansza[poczatkowy_ruch_green2 + pop_pozycja_green2]->pionek->colour)
                 {
                 case red:
                   czerwony->pionki[0]->rusz_pionka(SchowekRed[0], akt_pozycja_red1);
                   red1_wystawiony = false;
+                  poczatkowy_ruch_red1 = 0;
                   break;
                 case yellow:
                   zolty->pionki[0]->rusz_pionka(SchowekYellow[0], akt_pozycja_yellow1);
                   yellow1_wystawiony = false;
+                  poczatkowy_ruch_yellow1 = 0;
                   break;
                 case blue:
                   niebieski->pionki[0]->rusz_pionka(SchowekBlue[0], akt_pozycja_blue1);
                   blue1_wystawiony = false;
+                  poczatkowy_ruch_blue1 = 0;
                   break;
                 }
               }
@@ -1853,14 +2531,17 @@ INT_PTR CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
                 case red:
                   czerwony->pionki[0]->rusz_pionka(SchowekRed[0], akt_pozycja_red1);
                   red1_wystawiony = false;
+                  poczatkowy_ruch_red1 = 0;
                   break;
                 case green:
                   zielony->pionki[0]->rusz_pionka(SchowekGreen[0], akt_pozycja_green1);
                   green1_wystawiony = false;
+                  poczatkowy_ruch_green1 = 0;
                   break;
                 case blue:
                   niebieski->pionki[0]->rusz_pionka(SchowekBlue[0], akt_pozycja_blue1);
                   blue1_wystawiony = false;
+                  poczatkowy_ruch_blue1 = 0;
                   break;
                 }
               }
@@ -1879,14 +2560,17 @@ INT_PTR CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
                 case red:
                   czerwony->pionki[0]->rusz_pionka(SchowekRed[0], akt_pozycja_red1);
                   red1_wystawiony = false;
+                  poczatkowy_ruch_red1 = 0;
                   break;
                 case green:
                   zielony->pionki[0]->rusz_pionka(SchowekGreen[0], akt_pozycja_green1);
                   green1_wystawiony = false;
+                  poczatkowy_ruch_green1 = 0;
                   break;
                 case blue:
                   niebieski->pionki[0]->rusz_pionka(SchowekBlue[0], akt_pozycja_blue1);
                   blue1_wystawiony = false;
+                  poczatkowy_ruch_blue1 = 0;
                   break;
                 }
               }
@@ -1922,19 +2606,22 @@ INT_PTR CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
             {
               if (Plansza[poczatkowy_ruch_yellow2 + pop_pozycja_yellow2]->pionek != nullptr)
               {
-                switch (Plansza[poczatkowy_ruch_yellow2 + pop_pozycja_yellow2]->pionek->colour)
+                switch (Plansza[poczatkowy_ruch_yellow1 + pop_pozycja_yellow1]->pionek->colour)
                 {
                 case red:
                   czerwony->pionki[0]->rusz_pionka(SchowekRed[0], akt_pozycja_red1);
                   red1_wystawiony = false;
+                  poczatkowy_ruch_red1 = 0;
                   break;
                 case green:
                   zielony->pionki[0]->rusz_pionka(SchowekGreen[0], akt_pozycja_green1);
                   green1_wystawiony = false;
+                  poczatkowy_ruch_green1 = 0;
                   break;
                 case blue:
                   niebieski->pionki[0]->rusz_pionka(SchowekBlue[0], akt_pozycja_blue1);
                   blue1_wystawiony = false;
+                  poczatkowy_ruch_blue1 = 0;
                   break;
                 }
               }
@@ -1948,19 +2635,22 @@ INT_PTR CALLBACK DialogProc(HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lPara
               pop_pozycja_yellow2 -= 40;
               if (Plansza[poczatkowy_ruch_yellow2 + pop_pozycja_yellow2]->pionek != nullptr)
               {
-                switch (Plansza[poczatkowy_ruch_yellow2 + pop_pozycja_yellow2]->pionek->colour)
+                switch (Plansza[poczatkowy_ruch_yellow1 + pop_pozycja_yellow1]->pionek->colour)
                 {
                 case red:
                   czerwony->pionki[0]->rusz_pionka(SchowekRed[0], akt_pozycja_red1);
                   red1_wystawiony = false;
+                  poczatkowy_ruch_red1 = 0;
                   break;
                 case green:
                   zielony->pionki[0]->rusz_pionka(SchowekGreen[0], akt_pozycja_green1);
                   green1_wystawiony = false;
+                  poczatkowy_ruch_green1 = 0;
                   break;
                 case blue:
                   niebieski->pionki[0]->rusz_pionka(SchowekBlue[0], akt_pozycja_blue1);
                   blue1_wystawiony = false;
+                  poczatkowy_ruch_blue1 = 0;
                   break;
                 }
               }

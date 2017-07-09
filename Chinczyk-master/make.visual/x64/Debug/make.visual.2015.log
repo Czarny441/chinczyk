@@ -1,7 +1,7 @@
 ﻿C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V140\Microsoft.CppBuild.targets(368,5): warning MSB8004: Output Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Output Directory.
   main.cpp
-c:\users\kacper\desktop\chinczyk 0207\chinczyk-2.07\chinczyk-master\source\main.cpp(345): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
-c:\users\kacper\desktop\chinczyk 0207\chinczyk-2.07\chinczyk-master\source\main.cpp(2033): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-c:\users\kacper\desktop\chinczyk 0207\chinczyk-2.07\chinczyk-master\source\main.cpp(2030): warning C4101: 'board': unreferenced local variable
-  make.visual.2015.vcxproj -> C:\Users\Kacper\Desktop\chinczyk 0207\Chinczyk-2.07\Chinczyk-master\make.visual\\..\bin\Projekt1.exe
-  make.visual.2015.vcxproj -> C:\Users\Kacper\Desktop\chinczyk 0207\Chinczyk-2.07\Chinczyk-master\make.visual\\..\bin\Projekt1.pdb (Partial PDB)
+c:\users\kacper\desktop\chinczyk 0907\chinczyk-master\chinczyk-master\source\main.cpp(345): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+c:\users\kacper\desktop\chinczyk 0907\chinczyk-master\chinczyk-master\source\main.cpp(2723): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+c:\users\kacper\desktop\chinczyk 0907\chinczyk-master\chinczyk-master\source\main.cpp(2720): warning C4101: 'board': unreferenced local variable
+  make.visual.2015.vcxproj -> C:\Users\Kacper\Desktop\chinczyk 0907\chinczyk-master\Chinczyk-master\make.visual\\..\bin\Projekt1.exe
+  make.visual.2015.vcxproj -> C:\Users\Kacper\Desktop\chinczyk 0907\chinczyk-master\Chinczyk-master\make.visual\\..\bin\Projekt1.pdb (Partial PDB)
